@@ -1,5 +1,19 @@
 package com.serviceorder.api.entity;
 
-public class ServiceCategory {
+import javax.persistence.Entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Entity
+public class ServiceCategory extends BaseEntity {
+	
+	private String name;
+	
+	public ServiceCategory() {
+		// TODO Auto-generated constructor stub
+	}
+	
 }
