@@ -9,13 +9,11 @@ import lombok.Setter;
 @Entity
 public class Service extends BaseEntity {
 
-	private Integer service_category_id;
+	private Integer serviceCategoryId;
 	private String title;
 	private String description;
 	private float amount;
 	private String remarks;
 	
-	public Service() {
-		
-	}
+	
 }

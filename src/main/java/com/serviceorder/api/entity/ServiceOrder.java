@@ -12,14 +12,11 @@ import lombok.Setter;
 @Entity
 public class ServiceOrder extends BaseEntity{
 	
-	private Integer service_category_id;
-	private Integer client_id;
-	private Integer technician_id;
-	private LocalDateTime started_at;
-	private LocalDateTime finished_at;
+	private Integer serviceCategoryIid;
+	private Integer clientId;
+	private Integer technicianId;
+	private LocalDateTime startedAt;
+	private LocalDateTime finishedAt;
 	private String remarks;
 	
-	public ServiceOrder() {
-		
-	}
 }

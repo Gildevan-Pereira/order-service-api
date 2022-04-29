@@ -12,8 +12,4 @@ public class ServiceCategory extends BaseEntity {
 	
 	private String name;
 	
-	public ServiceCategory() {
-		// TODO Auto-generated constructor stub
-	}
-	
 }

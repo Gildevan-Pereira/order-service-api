@@ -8,15 +8,8 @@ import lombok.Setter;
 @Setter
 @Entity
 public class Client extends BaseEntity{
+
+	private Integer addressId;
 	
-	private String fullname;
-	private String idantity;
-	private String phone;
-	private String email;
-	private Integer address_id;
-	
-	public Client() {
-		
-	}
-	
+
 }

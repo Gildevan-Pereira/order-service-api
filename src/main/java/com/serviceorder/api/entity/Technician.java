@@ -9,15 +9,9 @@ import lombok.Setter;
 @Entity
 public class Technician extends BaseEntity{
 	
-	private String fullname;
-	private String idantity;
-	private String phone;
-	private String email;
 	private String role;
 	private float commission;
-	private Integer address_id;
+	private Integer addressId;
 	
-	public Technician() {
-		
-	}
+
 }
