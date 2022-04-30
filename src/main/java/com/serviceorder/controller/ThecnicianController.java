@@ -1,9 +1,8 @@
-package com.serviceorder.controllers;
+package com.serviceorder.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class AddressController {
-
+public class ThecnicianController {
 
 }

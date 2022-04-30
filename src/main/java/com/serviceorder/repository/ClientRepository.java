@@ -1,4 +1,4 @@
-package com.serviceorder.repositorys;
+package com.serviceorder.repository;
 
 import org.springframework.stereotype.Repository;
 
