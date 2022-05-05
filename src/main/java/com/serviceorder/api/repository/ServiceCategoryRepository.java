@@ -8,4 +8,6 @@ import com.serviceorder.api.entity.ServiceCategory;
 @Repository
 public interface ServiceCategoryRepository extends JpaRepository<ServiceCategory, Long>{
 
+
+
 }

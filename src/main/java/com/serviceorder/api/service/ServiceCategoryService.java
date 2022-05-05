@@ -6,16 +6,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.serviceorder.api.entity.ServiceCategory;
+import com.serviceorder.api.entity.dto.request.CategoryCreationRequest;
+import com.serviceorder.api.entity.dto.response.ServiceCategoryDTO;
 import com.serviceorder.api.repository.ServiceCategoryRepository;
 
 @Service
 public class ServiceCategoryService {
 	
 	@Autowired
-	private ServiceCategoryRepository repository;
+	private ServiceCategoryRepository repo;
 	
 	public Optional<ServiceCategory> findById(Long id) {
 		
-		return repository.findById(id);
+		return repo.findById(id);
+	}
+	
+	public ServiceCategory create(CategoryCreationRequest request) {
+		
+		var serviceCategory = ServiceCategory.builder()
+				.name(request.getCategoryName())
+				.build();
+		
+		return repo.save(serviceCategory);
+		
+		
+		
 	}
 }
