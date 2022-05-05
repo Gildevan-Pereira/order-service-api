@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.serviceorder.api.entity.ServiceOrder;
 
 @Repository
-public interface ServiceOrderRepository extends JpaRepository<ServiceOrder, Integer> {
+public interface ServiceOrderRepository extends JpaRepository<ServiceOrder, Long> {
 
 
 

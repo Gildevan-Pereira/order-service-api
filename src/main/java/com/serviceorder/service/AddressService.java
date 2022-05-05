@@ -1,8 +1,24 @@
 package com.serviceorder.service;
 
+import java.io.Serializable;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
-public class AddressService {
+import com.serviceorder.api.entity.Address;
+import com.serviceorder.repository.AddressRepository;
 
+@Service
+public class AddressService implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+
+	@Autowired
+	private AddressRepository repository;
+	
+	public Optional<Address> findById(Long id) {
+		
+		return repository.findById(id);
+	}
 }

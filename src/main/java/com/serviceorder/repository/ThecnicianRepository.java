@@ -1,8 +1,11 @@
 package com.serviceorder.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.serviceorder.api.entity.Technician;
+
 @Repository
-public class ThecnicianRepository {
+public interface ThecnicianRepository  extends JpaRepository<Technician, Long> {
 
 }

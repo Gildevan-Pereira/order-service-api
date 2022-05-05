@@ -15,10 +15,10 @@ public class ServiceOrderService implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Autowired
-	private ServiceOrderRepository repo;
+	private ServiceOrderRepository repository;
 	
-	public ServiceOrder buscar(Integer id) {
-		Optional<ServiceOrder> obj = repo.findById(id);
+	public ServiceOrder buscar(Long id) {
+		Optional<ServiceOrder> obj = repository.findById(id);
 		return obj.orElse(null);
 	}
 }

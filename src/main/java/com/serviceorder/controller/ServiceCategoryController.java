@@ -28,5 +28,11 @@ public class ServiceCategoryController {
 		return ResponseEntity.ok(result.get());
 	}
 	
+	/*
+	 * @GetMapping public String teste() {
+	 * 
+	 * return "Teste"; }
+	 */
+	
 
 }
