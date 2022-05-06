@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.serviceorder.api.entity.ServiceCategory;
 import com.serviceorder.api.entity.dto.request.CategoryCreationRequest;
-import com.serviceorder.api.entity.dto.response.ServiceCategoryDTO;
 import com.serviceorder.api.repository.ServiceCategoryRepository;
 
 @Service

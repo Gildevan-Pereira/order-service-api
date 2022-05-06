@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.serviceorder.api.entity.ServiceCategory;
 import com.serviceorder.api.entity.dto.request.CategoryCreationRequest;
-import com.serviceorder.api.entity.dto.response.ServiceCategoryDTO;
 import com.serviceorder.api.service.ServiceCategoryService;
 
 
@@ -41,5 +40,11 @@ public class ServiceCategoryController {
 		return ResponseEntity.ok(category);
 		
 	}
+	
+//	@PostMapping
+//	public ResponsieEntity<Tipo de Retorno> nomeDoMetodo(@RequestBody ClassDeRequisicaoCriada nomeDaRequest){
+//	  var nomeDaVariavel = nomeDoService.nomeDoMetodo(nomeDarequisicao);
+//	return ResponseEntity.ok(variavelCriada);
+//	}
 
 }

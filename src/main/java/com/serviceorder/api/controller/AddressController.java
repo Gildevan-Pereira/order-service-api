@@ -4,9 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.serviceorder.api.entity.Address;
+import com.serviceorder.api.entity.dto.request.AddressCreationRequest;
 import com.serviceorder.api.service.AddressService;
 
 @RestController
@@ -14,17 +18,25 @@ import com.serviceorder.api.service.AddressService;
 public class AddressController {
 
 	@Autowired
-	private AddressService addressService;
-	
+	private AddressService address;
+
 	@GetMapping("/{id}")
 	public ResponseEntity<?> get(@PathVariable("id") Long id) {
-		var result = addressService.findById(id);
-		
-		if(result.isEmpty()) {
+		var result = address.findById(id);
+
+		if (result.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
-		
+
 		return ResponseEntity.ok(result.get());
+
+	}
+
+	@PostMapping
+	public ResponseEntity<Address> create(@RequestBody AddressCreationRequest request) {
 		
+		var newEndereco = address.create(request);
+		
+		return ResponseEntity.ok(newEndereco);
 	}
 }
