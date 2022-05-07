@@ -27,16 +27,16 @@ public abstract class BaseEntity implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	protected Long id;
+	private Long id;
 	
 	@Column(updatable = false) //Nunca pode ser mudado TODO:Só pra lembrar FIXME: Só pra lembra	
-	protected UUID uid;
+	private UUID uid;
 	
 	@Column(name = "created_at", updatable = false, insertable = false)
-	protected LocalDateTime createdAt;
+	private LocalDateTime createdAt;
 	
-	@Column(name = "removed_at", updatable = false, insertable = false)
-	protected LocalDateTime removedAt;
+	@Column(name = "removed_at", insertable = false)
+	private LocalDateTime removedAt;
 	
 	@PrePersist  //mesmo que o banco não tenha a capacidade de gerar automaticamente, esta anotação irá gerar automaticamente
 	private void generateUid () {

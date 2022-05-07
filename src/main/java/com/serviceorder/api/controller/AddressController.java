@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.serviceorder.api.entity.Address;
-import com.serviceorder.api.entity.dto.request.AddressCreationRequest;
+import com.serviceorder.api.entity.dto.request.AddressCreateReqDTO;
 import com.serviceorder.api.service.AddressService;
 
 @RestController
@@ -33,7 +33,7 @@ public class AddressController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Address> create(@RequestBody AddressCreationRequest request) {
+	public ResponseEntity<Address> create(@RequestBody AddressCreateReqDTO request) {
 		
 		var newEndereco = address.create(request);
 		

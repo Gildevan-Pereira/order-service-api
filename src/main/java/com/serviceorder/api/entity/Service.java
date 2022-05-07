@@ -1,6 +1,7 @@
 package com.serviceorder.api.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,7 +32,7 @@ public class Service extends BaseEntity implements Serializable {
 	
 	private String title;
 	private String description;
-	private Double amount;
+	private BigDecimal amount;
 	private String remarks;
 	
 	

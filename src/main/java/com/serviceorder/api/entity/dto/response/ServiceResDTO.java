@@ -1,5 +1,5 @@
 package com.serviceorder.api.entity.dto.response;
 
-public class ClientDTO {
+public class ServiceResDTO {
 
 }

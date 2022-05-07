@@ -1,7 +1,9 @@
 package com.serviceorder.api.entity.dto.request;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
+
+import com.serviceorder.api.entity.ServiceCategory;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,16 +16,12 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddressCreationRequest implements Serializable {
+public class ServiceCreateReqDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	protected LocalDateTime createdAt;
-	private String street;
-	private String number;
-	private String district;
-	private String zipcode;
-	private String city;
-	private String state;
-	private String complement;
-
+	private ServiceCategory category;
+	private String title;
+	private String description;
+	private BigDecimal amount;
+	private String remarks;
 }

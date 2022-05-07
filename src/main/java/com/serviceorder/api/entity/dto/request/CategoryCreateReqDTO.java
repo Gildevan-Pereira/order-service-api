@@ -13,7 +13,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryCreationRequest implements Serializable {
+public class CategoryCreateReqDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	

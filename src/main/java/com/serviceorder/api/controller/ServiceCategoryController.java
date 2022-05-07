@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.serviceorder.api.entity.ServiceCategory;
-import com.serviceorder.api.entity.dto.request.CategoryCreationRequest;
+import com.serviceorder.api.entity.dto.request.CategoryCreateReqDTO;
 import com.serviceorder.api.service.ServiceCategoryService;
 
 
@@ -33,7 +33,7 @@ public class ServiceCategoryController {
 	}	
 	
 	@PostMapping
-	public ResponseEntity<ServiceCategory> create(@RequestBody CategoryCreationRequest request) {
+	public ResponseEntity<ServiceCategory> create(@RequestBody CategoryCreateReqDTO request) {
 		
 		var category = service.create(request);
 		
@@ -41,9 +41,10 @@ public class ServiceCategoryController {
 		
 	}
 	
+	
 //	@PostMapping
 //	public ResponsieEntity<Tipo de Retorno> nomeDoMetodo(@RequestBody ClassDeRequisicaoCriada nomeDaRequest){
-//	  var nomeDaVariavel = nomeDoService.nomeDoMetodo(nomeDarequisicao);
+//	  var nomeDaVariavel = nomeDoService.nomeDoMetodo(nomeDaRequest);
 //	return ResponseEntity.ok(variavelCriada);
 //	}
 
