@@ -20,17 +20,17 @@ public class AddressController {
 	@Autowired
 	private AddressService address;
 
-	@GetMapping("/{id}")
-	public ResponseEntity<?> get(@PathVariable("id") Long id) {
-		var result = address.findById(id);
-
-		if (result.isEmpty()) {
-			return ResponseEntity.notFound().build();
-		}
-
-		return ResponseEntity.ok(result.get());
-
-	}
+//	@GetMapping("/{id}")
+//	public ResponseEntity<?> get(@PathVariable("id") Long id) {
+//		var result = address.findById(id);
+//
+//		if (result.isEmpty()) {
+//			return ResponseEntity.notFound().build();
+//		}
+//
+//		return ResponseEntity.ok(result.get());
+//
+//	}
 
 	@PostMapping
 	public ResponseEntity<Address> create(@RequestBody AddressCreateReqDTO request) {

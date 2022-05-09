@@ -1,6 +1,8 @@
 package com.serviceorder.api.service;
 
 import java.io.Serializable;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,10 @@ public class TechnicianService implements Serializable {
 	
 	@Autowired
 	public AddressService addressService;
+	
+	public Optional<Technician> findByUid(UUID uid) {
+		return repository.findByUid(uid);
+	}
 	
 	public Technician create(TechnicianCreateReqDTO request) {
 		

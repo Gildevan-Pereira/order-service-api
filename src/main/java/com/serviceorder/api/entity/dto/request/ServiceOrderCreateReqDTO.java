@@ -1,7 +1,7 @@
 package com.serviceorder.api.entity.dto.request;
 
 import java.io.Serializable;
-import java.util.UUID;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,17 +14,14 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddressCreateReqDTO implements Serializable {
-	
+public class ServiceOrderCreateReqDTO implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 	
-	private UUID uid;
-	private String street;
-	private String number;
-	private String district;
-	private String zipcode;
-	private String city;
-	private String state;
-	private String complement;
-
+	private ServiceCreateReqDTO service;
+	private ClientCreateReqDTO client;
+	private TechnicianCreateReqDTO technician;
+	private LocalDateTime startedAt;
+	private LocalDateTime finishedAt;
+	private String remarks;
 }

@@ -2,6 +2,8 @@ package com.serviceorder.api.service;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,6 +21,10 @@ public class ServiceService implements Serializable {
 	
 	@Autowired
 	private ServiceCategoryRepository categoryRepository;
+	
+	public Optional<Service> findByUid(UUID uid) {
+		return repository.findByUid(uid);
+	}
 	
 	public Service create(ServiceCreateReqDTO request) {
 		

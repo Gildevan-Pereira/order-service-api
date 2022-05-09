@@ -1,6 +1,8 @@
 package com.serviceorder.api.service;
 
 import java.io.Serializable;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,11 @@ public class ClientService implements Serializable {
 	@Autowired
 	public AddressService addressService;
 	
+	
+	public Optional<Client> findByUid(UUID uid) {
+		return clientRepository.findByUid(uid);
+	}
+	
 	public Client create(ClientCreateReqDTO request) {
 		
 		var newAddress = addressService.create(request.getAddress());
@@ -31,6 +38,5 @@ public class ClientService implements Serializable {
 		return clientRepository.save(newClient);
 		
 	}
-	
 	
 }

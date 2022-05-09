@@ -1,6 +1,7 @@
 package com.serviceorder.api.entity.dto.request;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,6 +17,7 @@ import lombok.Setter;
 public class TechnicianCreateReqDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	private UUID uid;
 	private String role;
 	private Double commission;
 	private String fullname;

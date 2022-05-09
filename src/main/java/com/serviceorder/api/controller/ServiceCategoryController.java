@@ -1,5 +1,7 @@
 package com.serviceorder.api.controller;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,14 +23,10 @@ public class ServiceCategoryController {
 	@Autowired
 	private ServiceCategoryService service;
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<ServiceCategory> find(@PathVariable("id") Long id) {
-		var result = service.findById(id);
-		
-		if(result.isEmpty()) {
-			return ResponseEntity.notFound().build();
-		}
-		
+	@GetMapping("/{uid}")
+	public ResponseEntity<ServiceCategory> find(@PathVariable("uid") UUID uid) {
+		var result = service.findByUid(uid);
+			
 		return ResponseEntity.ok(result.get());
 	}	
 	
