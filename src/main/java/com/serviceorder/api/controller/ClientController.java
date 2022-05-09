@@ -21,7 +21,9 @@ public class ClientController {
 	//FIXME: Criar DTO de Response para "NÃO" retornar a ENTITY, bem como o BUILDER
 	@PostMapping
 	public ResponseEntity<Client> insert(@RequestBody ClientCreateReqDTO request) {
-		return ResponseEntity.ok(clientService.create(request));
+		var newclient = clientService.create(request);
+		
+		return ResponseEntity.ok(newclient);
 	} 
 	
 

@@ -1,4 +1,4 @@
-package com.serviceorder.api.entity.dto.builders;
+package com.serviceorder.api.entity.dto.request.builders;
 
 import com.serviceorder.api.entity.Address;
 import com.serviceorder.api.entity.dto.request.AddressCreateReqDTO;

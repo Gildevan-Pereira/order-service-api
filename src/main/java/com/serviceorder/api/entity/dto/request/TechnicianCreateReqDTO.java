@@ -1,8 +1,6 @@
 package com.serviceorder.api.entity.dto.request;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,12 +13,15 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ServiceCreateReqDTO implements Serializable {
+public class TechnicianCreateReqDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+	private String role;
+	private Double commission;
+	private String fullname;
+	private String identity;
+	private String phone;
+	private String email;
+	private AddressCreateReqDTO address;
 	
-	private UUID categoryId;
-	private String title;
-	private String description;
-	private BigDecimal amount;
-	private String remarks;
 }

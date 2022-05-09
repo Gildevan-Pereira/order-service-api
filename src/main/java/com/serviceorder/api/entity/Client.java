@@ -17,7 +17,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @Entity
-@SuperBuilder
+@SuperBuilder 
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(schema = "public", name = "client")

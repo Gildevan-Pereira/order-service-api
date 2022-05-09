@@ -20,7 +20,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(schema = "public", name = "thecnician") //Identificar a tabela do banco
+@Table(schema = "public", name = "technician") //Identificar a tabela do banco
 public class Technician extends Agent implements Serializable {
 
 	private static final long serialVersionUID = 1L;

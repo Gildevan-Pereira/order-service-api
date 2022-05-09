@@ -1,6 +1,7 @@
 package com.serviceorder.api.service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,9 +16,9 @@ public class ServiceCategoryService {
 	@Autowired
 	private ServiceCategoryRepository repo;
 	
-	public Optional<ServiceCategory> findById(Long id) {
+	public Optional<ServiceCategory> findByUid(UUID uid) {
 		
-		return repo.findById(id);
+		return repo.findByUid(uid);
 	}
 	
 	public ServiceCategory create(CategoryCreateReqDTO request) {

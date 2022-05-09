@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.serviceorder.api.entity.Technician;
 
 @Repository
-public interface ThecnicianRepository  extends JpaRepository<Technician, Long> {
+public interface TechnicianRepository  extends JpaRepository<Technician, Long> {
 
 }

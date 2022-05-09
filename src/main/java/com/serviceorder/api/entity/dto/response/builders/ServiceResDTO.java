@@ -1,8 +1,9 @@
-package com.serviceorder.api.entity.dto.request;
+package com.serviceorder.api.entity.dto.response.builders;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.UUID;
+
+import com.serviceorder.api.entity.ServiceCategory;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,10 +16,10 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ServiceCreateReqDTO implements Serializable {
+public class ServiceResDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private UUID categoryId;
+	private ServiceCategory category;
 	private String title;
 	private String description;
 	private BigDecimal amount;

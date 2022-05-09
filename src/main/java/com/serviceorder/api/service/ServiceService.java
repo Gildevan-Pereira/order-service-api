@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.serviceorder.api.entity.Service;
-import com.serviceorder.api.entity.ServiceCategory;
 import com.serviceorder.api.entity.dto.request.ServiceCreateReqDTO;
 import com.serviceorder.api.repository.ServiceCategoryRepository;
 import com.serviceorder.api.repository.ServiceRepository;
@@ -23,25 +22,18 @@ public class ServiceService implements Serializable {
 	
 	public Service create(ServiceCreateReqDTO request) {
 		
-		var category = ServiceCategory.builder()
-				.name(request.getCategory().getName())
-				.build();
-		
-		var savedCategory = categoryRepository.save(category);
-		
+		var category = categoryRepository.findByUid(request.getCategoryId());
+				
 		var newService = Service.builder()
 			.title(request.getTitle())
 			.description(request.getDescription())
 			.amount(request.getAmount())
 			.remarks(request.getRemarks())
-			.serviceCategory(savedCategory)
+			.serviceCategory(category.get())
 			.createdAt(LocalDateTime.now())
 			.build();
 
-		var x  = repository.save(newService);
-		
-		return x;
-		
+		return repository.save(newService);
 	}
 
 }

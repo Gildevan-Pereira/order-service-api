@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.serviceorder.api.entity.Address;
-import com.serviceorder.api.entity.dto.builders.AddressBuilder;
 import com.serviceorder.api.entity.dto.request.AddressCreateReqDTO;
+import com.serviceorder.api.entity.dto.request.builders.AddressBuilder;
 import com.serviceorder.api.repository.AddressRepository;
 
 @Service
