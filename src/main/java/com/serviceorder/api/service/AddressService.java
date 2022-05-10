@@ -1,7 +1,7 @@
 package com.serviceorder.api.service;
 
 import java.io.Serializable;
-import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +19,9 @@ public class AddressService implements Serializable {
 	@Autowired
 	private AddressRepository repository;
 	
-	public Optional<Address> findById(Long id) {
-		return repository.findById(id);
+	public Address findByUid(UUID uid) {
+		// TODO: Construir tratamento de exceções quando o optional estiver vazio
+		return repository.findByUid(uid).get();
 	}
 	
 	public Address create(AddressCreateReqDTO request) {

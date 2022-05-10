@@ -27,7 +27,7 @@ public class ServiceOrder extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER) //Define estratégias para buscar dados do banco de dados. A estratégia EAGER é um requisito no tempo de execução do provedor de persistência de que os dados devem ser buscados avidamente. A estratégia LAZY é uma dica para o tempo de execução do provedor de persistência de que os dados devem ser buscados lentamente quando forem acessados ​​pela primeira vez. A implementação tem permissão para buscar dados para os quais a dica de estratégia LAZY foi especificada.
 	@JoinColumn(name = "service_id")
 	private Service service;
 	
@@ -36,7 +36,7 @@ public class ServiceOrder extends BaseEntity implements Serializable {
 	private Client client;
 	
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "thecnician_id")
+	@JoinColumn(name = "technician_id")
 	private Technician technician;
 	
 	@Column(name = "started_at")
@@ -46,5 +46,14 @@ public class ServiceOrder extends BaseEntity implements Serializable {
 	private LocalDateTime finishedAt;
 	
 	private String remarks;
+	
+	
+	public LocalDateTime setStartedAt(LocalDateTime setStartedAt) {
+		return this.startedAt = setStartedAt;
+	}
+	public LocalDateTime setFinishedAt(LocalDateTime finishedAt) {
+		return this.finishedAt = finishedAt;
+	}
+	
 	
 }

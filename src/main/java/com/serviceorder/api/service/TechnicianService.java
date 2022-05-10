@@ -1,7 +1,6 @@
 package com.serviceorder.api.service;
 
 import java.io.Serializable;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ public class TechnicianService implements Serializable {
 	@Autowired
 	public AddressService addressService;
 	
-	public Optional<Technician> findByUid(UUID uid) {
+	public Technician findByUid(UUID uid) {
 		return repository.findByUid(uid);
 	}
 	

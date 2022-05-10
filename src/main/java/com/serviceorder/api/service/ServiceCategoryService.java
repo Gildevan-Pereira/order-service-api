@@ -1,6 +1,5 @@
 package com.serviceorder.api.service;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +15,11 @@ public class ServiceCategoryService {
 	@Autowired
 	private ServiceCategoryRepository repo;
 	
-	public Optional<ServiceCategory> findByUid(UUID uid) {
+	public ServiceCategory findByUid(UUID uid) {
 		
-		return repo.findByUid(uid);
+		// TODO: Construir tratamento de exceções quando o optional estiver vazio
+		//return obj.orElseThrow(() -> new ObjectNotFoundException(uid, null);)
+			return repo.findByUid(uid).get();
 	}
 	
 	public ServiceCategory create(CategoryCreateReqDTO request) {

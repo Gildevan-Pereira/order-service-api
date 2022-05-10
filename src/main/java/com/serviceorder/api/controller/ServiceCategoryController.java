@@ -26,8 +26,8 @@ public class ServiceCategoryController {
 	@GetMapping("/{uid}")
 	public ResponseEntity<ServiceCategory> find(@PathVariable("uid") UUID uid) {
 		var result = service.findByUid(uid);
-			
-		return ResponseEntity.ok(result.get());
+		
+		return ResponseEntity.ok(result);
 	}	
 	
 	@PostMapping
