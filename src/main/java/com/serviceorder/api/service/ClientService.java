@@ -1,6 +1,7 @@
 package com.serviceorder.api.service;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,14 @@ public class ClientService implements Serializable {
 				
 		return clientRepository.save(newClient);
 	}
+	
+	public List<Client> findByFullname(String fullname) {
+		
+		return clientRepository.findByFullname(fullname);
+		
+	}
+	
+	
 
 	
 }

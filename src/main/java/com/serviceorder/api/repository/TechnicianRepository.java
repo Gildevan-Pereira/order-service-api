@@ -1,5 +1,6 @@
 package com.serviceorder.api.repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,5 +11,5 @@ import com.serviceorder.api.entity.Technician;
 @Repository
 public interface TechnicianRepository  extends JpaRepository<Technician, Long> {
 
-	Technician findByUid(UUID uid);
+	Optional<Technician> findByUid(UUID uid);
 }

@@ -23,7 +23,7 @@ public class TechnicianService implements Serializable {
 	public AddressService addressService;
 	
 	public Technician findByUid(UUID uid) {
-		return repository.findByUid(uid);
+		return repository.findByUid(uid).get();
 	}
 	
 	public Technician create(TechnicianCreateReqDTO request) {

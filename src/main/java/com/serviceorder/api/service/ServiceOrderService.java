@@ -21,9 +21,6 @@ public class ServiceOrderService implements Serializable {
 	@Autowired
 	private ServiceOrderRepository repository;
 
-//	@Autowired
-//	private ServiceOrderService orderService;
-
 	@Autowired
 	private ClientService clientService;
 
@@ -37,8 +34,8 @@ public class ServiceOrderService implements Serializable {
 		Optional<ServiceOrder> obj = repository.findByUid(uid);
 		return obj.orElse(null);
 	}
-
-	public ServiceOrder create(ServiceOrderCreateReqDTO request) {
+	
+	public ServiceOrder create(ServiceOrderCreateReqDTO request) {  //Service for create a new service order
 
 		var client = clientService.findByUid(request.getClientId());
 		var technician = technicianService.findByUid(request.getTechnicianId());
@@ -53,20 +50,22 @@ public class ServiceOrderService implements Serializable {
 		return repository.save(newServiceOrder);
 	}
 
-//	public ServiceOrder startedAt(ServiceOrderCreateReqDTO request) {	
-//		
-//		var serviceOrder = orderService.buscar(request.getUid());
-//		
-//		serviceOrder.setStartedAt(LocalDateTime.now());;
-//		
-//		return repository.save(serviceOrder);
-//	}
-
-	public ServiceOrder start(UUID uid) {
+	public ServiceOrder start(UUID uid) { //Service for set started_at
 		ServiceOrder serviceOrder = repository.findByUid(uid).get();
-		if (serviceOrder.getStartedAt() == null) {
+		if (serviceOrder.getStartedAt() == null)
+			
 			serviceOrder.setStartedAt(LocalDateTime.now());
-		}
-		return serviceOrder;
+		
+		return repository.save(serviceOrder);
+	}
+
+	public ServiceOrder finish(UUID uid) { //Service for set finished_at
+		ServiceOrder serviceOrder = repository.findByUid(uid).get();
+		if (serviceOrder.getFinishedAt() == null)
+			
+			serviceOrder.setFinishedAt(LocalDateTime.now());
+		
+		return  repository.save(serviceOrder);
+		
 	}
 }
