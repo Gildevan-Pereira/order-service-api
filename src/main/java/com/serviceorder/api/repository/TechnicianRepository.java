@@ -13,6 +13,7 @@ import com.serviceorder.api.entity.Technician;
 @Repository
 public interface TechnicianRepository extends JpaRepository<Technician, Long> {
 
+	@Query(value = "SELECT t FROM Technician t WHERE t.removedAt IS NULL AND t.uid = :uid") //JPQL
 	Optional<Technician> findByUid(UUID uid);
 
 	@Query(nativeQuery = true, value = "SELECT * FROM technician t  "

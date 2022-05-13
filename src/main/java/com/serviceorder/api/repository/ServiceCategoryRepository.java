@@ -12,7 +12,8 @@ import com.serviceorder.api.entity.ServiceCategory;
 
 @Repository
 public interface ServiceCategoryRepository extends JpaRepository<ServiceCategory, Long>{
-
+	
+	@Query(value = "SELECT sc FROM ServiceCategory sc WHERE sc.removedAt IS NULL AND sc.uid = :uid") //JPQL
 	Optional<ServiceCategory> findByUid(UUID uid); 
 	
 	Optional<ServiceCategory> findByName(String name);

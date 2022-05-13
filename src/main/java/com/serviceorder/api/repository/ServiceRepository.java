@@ -15,6 +15,7 @@ import com.serviceorder.api.entity.Service;
 @Repository
 public interface ServiceRepository extends JpaRepository<Service, Long> {
 
+	@Query(value = "SELECT s FROM Service s WHERE s.removedAt IS NULL AND s.uid = :uid") //JPQL
 	Optional<Service> findByUid(UUID uid); 
 	
 	@Query(nativeQuery = true, value = "SELECT * FROM service s WHERE s.title LIKE %:keyword% OR s.description LIKE %:keyword%")
