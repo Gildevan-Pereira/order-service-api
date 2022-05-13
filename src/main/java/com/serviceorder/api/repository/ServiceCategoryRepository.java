@@ -11,6 +11,6 @@ import com.serviceorder.api.entity.ServiceCategory;
 @Repository
 public interface ServiceCategoryRepository extends JpaRepository<ServiceCategory, Long>{
 
-	Optional<ServiceCategory> findByUid(UUID uid);
+	Optional<ServiceCategory> findByUid(UUID uid); 
 
 }

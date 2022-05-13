@@ -17,7 +17,6 @@ import lombok.Setter;
 public class ClientCreateReqDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private UUID uid;
 	private String fullname;
 	private String identity;
 	private String phone;

@@ -1,6 +1,7 @@
 package com.serviceorder.api.service;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,10 @@ public class TechnicianService implements Serializable {
 	
 	public Technician findByUid(UUID uid) {
 		return repository.findByUid(uid).get();
+	}
+	
+	public List<Technician> findByKeyword(String keyword) {
+		return repository.findByKeyword(keyword);
 	}
 	
 	public Technician create(TechnicianCreateReqDTO request) {

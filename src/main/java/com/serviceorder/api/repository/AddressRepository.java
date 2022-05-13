@@ -11,5 +11,5 @@ import com.serviceorder.api.entity.Address;
 @Repository
 public interface AddressRepository extends JpaRepository<Address, Long>{
 	
-	Optional<Address> findByUid(UUID uid);
+	Optional<Address> findByUid(UUID uid); //Query Method JPA
 }

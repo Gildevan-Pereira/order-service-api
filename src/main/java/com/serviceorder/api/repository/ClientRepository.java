@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.serviceorder.api.entity.Client;
@@ -12,7 +13,18 @@ import com.serviceorder.api.entity.Client;
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
 
+	@Query(value = "SELECT c FROM Client c WHERE c.removedAt IS NULL AND c.uid = :uid") //JPQL
 	Optional<Client> findByUid(UUID uid);
 	
-	List<Client> findByFullname(String name);
+	@Query(value = "SELECT c FROM Client c WHERE c.removedAt IS NULL") //JPQL
+	List<Client> findAll();
+	
+	@Query(nativeQuery = true, value = "SELECT * FROM client c "
+				+ "WHERE (c.fullname LIKE %:keyword% "
+				+ "	OR c.identity LIKE %:keyword% "
+				+ "	OR c.phone LIKE %:keyword%)"
+				+ "		AND c.removed_at IS NULL ") //JPQL
+	List<Client> findByKeyword(String keyword);
+	
+
 }
