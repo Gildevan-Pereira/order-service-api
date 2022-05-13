@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +39,7 @@ public class ClientService implements Serializable {
 		return clientRepository.findByKeyword(keyword);
 	}
 	
-	public Client create(ClientCreateReqDTO request) {
+	public Client clientCreate(ClientCreateReqDTO request) {
 
 		var newAddress = addressService.create(request.getAddress());
 
@@ -48,22 +50,17 @@ public class ClientService implements Serializable {
 		return clientRepository.save(newClient);
 	}
 	
-	public Client update(ClientCreateReqDTO request, UUID uid) {
+	public Client clientUpdate(ClientCreateReqDTO request, UUID uid) {
 		Optional<Client> client = clientRepository.findByUid(uid);
 		if(client.isPresent()) {
-			var clientUpd = updateFields(request, client.get());
-			
-			return clientRepository.save(clientUpd);
+			return updateFields(request, client.get());
 		}
 		
 		return null;
 	}
 	
+	@Transactional   //This annotation ensures that all operations must be completed successfully
 	private Client updateFields(ClientCreateReqDTO dto, Client client) {
-		client.setFullname(dto.getFullname());
-		client.setEmail(dto.getEmail());
-		client.setIdentity(dto.getIdentity());
-		client.setPhone(dto.getPhone());
 		client.getAddress().setCity(dto.getAddress().getCity());
 		client.getAddress().setDistrict(dto.getAddress().getDistrict());
 		client.getAddress().setNumber(dto.getAddress().getNumber());
@@ -72,6 +69,14 @@ public class ClientService implements Serializable {
 		client.getAddress().setState(dto.getAddress().getState());
 		client.getAddress().setStreet(dto.getAddress().getStreet());
 		
-		return client;
+		var updAddress = addressService.update(client.getAddress());
+		
+		client.setFullname(dto.getFullname());
+		client.setEmail(dto.getEmail());
+		client.setIdentity(dto.getIdentity());
+		client.setPhone(dto.getPhone());
+		client.setAddress(updAddress);
+		
+		return clientRepository.save(client);
 	}
 }

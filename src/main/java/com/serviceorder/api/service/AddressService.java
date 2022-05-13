@@ -28,4 +28,9 @@ public class AddressService implements Serializable {
 		return repository.save(AddressBuilder.build(request));
 	}
 	
+	public Address update(Address address) {
+		return repository.save(address);
+	}
+	
+	
 }

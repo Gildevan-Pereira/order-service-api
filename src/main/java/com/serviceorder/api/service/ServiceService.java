@@ -5,7 +5,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -52,11 +55,37 @@ public class ServiceService implements Serializable {
 
 		var category = categoryRepository.findByUid(request.getCategoryId());
 
-		var newService = Service.builder().title(request.getTitle()).description(request.getDescription())
-				.amount(request.getAmount()).remarks(request.getRemarks()).serviceCategory(category.get())
+		var newService = Service.builder()
+				.title(request.getTitle())
+				.description(request.getDescription())
+				.amount(request.getAmount())
+				.remarks(request.getRemarks())
+				.serviceCategory(category.get())
 				.createdAt(LocalDateTime.now()).build();
 
 		return repository.save(newService);
+	}
+	
+	public Service serviceUpdate(ServiceCreateReqDTO request, UUID uid) {
+		Optional<Service> service = repository.findByUid(uid);
+		if (service.isPresent()) {
+			return updateFields(request, service.get());
+		}
+		return null;
+	}
+	
+	@Transactional   //This annotation ensures that all operations must be completed successfully
+	private Service updateFields(ServiceCreateReqDTO dto, Service service) {
+		
+		var category = categoryRepository.findByUid(dto.getCategoryId());
+		
+		service.setTitle(dto.getTitle());
+		service.setDescription(dto.getDescription());
+		service.setAmount(dto.getAmount());
+		service.setRemarks(dto.getRemarks());
+		service.setServiceCategory(category.get());
+		
+		return repository.save(service);
 	}
 
 }

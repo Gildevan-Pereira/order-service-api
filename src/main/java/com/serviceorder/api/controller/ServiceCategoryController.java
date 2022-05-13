@@ -1,5 +1,6 @@
 package com.serviceorder.api.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,11 @@ public class ServiceCategoryController {
 		return ResponseEntity.ok(result);
 	}	
 	
+	@GetMapping
+	public ResponseEntity<List<ServiceCategory>> findAll(){
+		return ResponseEntity.ok(service.findAll());
+	}
+	
 	@PostMapping
 	public ResponseEntity<ServiceCategory> create(@RequestBody CategoryCreateReqDTO request) {
 		
@@ -38,12 +44,5 @@ public class ServiceCategoryController {
 		return ResponseEntity.ok(category);
 		
 	}
-	
-	
-//	@PostMapping
-//	public ResponsieEntity<Tipo de Retorno> nomeDoMetodo(@RequestBody ClassDeRequisicaoCriada nomeDaRequest){
-//	  var nomeDaVariavel = nomeDoService.nomeDoMetodo(nomeDaRequest);
-//	return ResponseEntity.ok(variavelCriada);
-//	}
 
 }

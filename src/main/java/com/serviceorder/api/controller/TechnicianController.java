@@ -1,11 +1,14 @@
 package com.serviceorder.api.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,8 +26,20 @@ public class TechnicianController {
 	private TechnicianService service;
 	
 	@PostMapping
-	public ResponseEntity<Technician> create(@RequestBody TechnicianCreateReqDTO request) {
-		return ResponseEntity.ok(service.create(request));
+	public ResponseEntity<Technician> technicianCreat(@RequestBody TechnicianCreateReqDTO request) {
+		return ResponseEntity.ok(service.technicianCreat(request));
+	}
+	
+	@PutMapping("/{uid}")
+	public ResponseEntity<Technician> technicianUpdate(@RequestBody TechnicianCreateReqDTO createReqDTO, @PathVariable UUID uid) {
+		var update = service.technicianUpdate(createReqDTO, uid);
+		return ResponseEntity.ok(update);
+	}
+		
+	@GetMapping("/{uid}") //Endpoint for get Service Order by uid
+	public ResponseEntity<Technician> findByUid(@PathVariable("uid") UUID uid){
+		//TODO: Substituir o tipo de retorno do ResponseEntity para ServiceOrderResDTO
+		return ResponseEntity.ok(service.findByUid(uid));
 	}
 	
 	@GetMapping("keyword")

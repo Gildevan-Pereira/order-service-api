@@ -27,20 +27,25 @@ public class ClientController {
 	
 	//FIXME: Criar DTO de Response para "NÃO" retornar a ENTITY, bem como o BUILDER
 	@PostMapping
-	public ResponseEntity<Client> insert(@RequestBody ClientCreateReqDTO request) {
-		var newclient = clientService.create(request);
-		
+	public ResponseEntity<Client> clientCreate(@RequestBody ClientCreateReqDTO request) {
+		var newclient = clientService.clientCreate(request);
 		return ResponseEntity.ok(newclient);
 	} 
 	
 	@PutMapping("/{uid}")
-	public ResponseEntity<Client> update(@RequestBody ClientCreateReqDTO createReqDTO, @PathVariable UUID uid) {
-		return ResponseEntity.ok(clientService.update(createReqDTO, uid));
+	public ResponseEntity<Client> clientUpdate(@RequestBody ClientCreateReqDTO createReqDTO, @PathVariable UUID uid) {
+		return ResponseEntity.ok(clientService.clientUpdate(createReqDTO, uid));
 	}
 		
 	@GetMapping
 	public ResponseEntity<List<Client>> findAll(){
 		return ResponseEntity.ok(clientService.findAll());
+	}
+	
+	@GetMapping("/{uid}") //Endpoint for get Service Order by uid
+	public ResponseEntity<Client> findByUid(@PathVariable("uid") UUID uid){
+		//TODO: Substituir o tipo de retorno do ResponseEntity para ServiceOrderResDTO
+		return ResponseEntity.ok(clientService.findByUid(uid));
 	}
 	
 	@GetMapping("/keyword")

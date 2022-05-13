@@ -38,15 +38,15 @@ public class ServiceOrderController {
 	}
 	
 	@PutMapping("/finish/{uid}") //Endpoint for set finished_at in the table
-	public ResponseEntity<ServiceOrder> setFinish(@PathVariable UUID uid){
-		var newDateFinish = orderService.finish(uid);
+	public ResponseEntity<ServiceOrder> setFinishedAt(@PathVariable UUID uid){
+		var newDateFinish = orderService.finishedAt(uid);
 		//TODO: Substituir o tipo de retorno do ResponseEntity para ServiceOrderResDTO
 		return ResponseEntity.ok(newDateFinish);
 	}
 	
 	@GetMapping("/{uid}") //Endpoint for get Service Order by uid
-	public ResponseEntity<ServiceOrder> buscar(@PathVariable("uid") UUID uid){
-		var serviceOrder = orderService.buscar(uid);
+	public ResponseEntity<ServiceOrder> findByUid(@PathVariable("uid") UUID uid){
+		var serviceOrder = orderService.findByUid(uid);
 		//TODO: Substituir o tipo de retorno do ResponseEntity para ServiceOrderResDTO
 		return ResponseEntity.ok(serviceOrder);
 	}

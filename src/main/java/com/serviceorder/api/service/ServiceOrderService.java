@@ -2,7 +2,6 @@ package com.serviceorder.api.service;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +29,8 @@ public class ServiceOrderService implements Serializable {
 	@Autowired
 	private ServiceService serviceService;
 
-	public ServiceOrder buscar(UUID uid) {
-		Optional<ServiceOrder> obj = repository.findByUid(uid);
-		return obj.orElse(null);
+	public ServiceOrder findByUid(UUID uid) {
+		return repository.findByUid(uid).get();
 	}
 	
 	public ServiceOrder create(ServiceOrderCreateReqDTO request) {  //Service for create a new service order
@@ -59,7 +57,7 @@ public class ServiceOrderService implements Serializable {
 		return repository.save(serviceOrder);
 	}
 
-	public ServiceOrder finish(UUID uid) { //Service for set finished_at
+	public ServiceOrder finishedAt(UUID uid) { //Service for set finished_at
 		ServiceOrder serviceOrder = repository.findByUid(uid).get();
 		if (serviceOrder.getFinishedAt() == null)
 			

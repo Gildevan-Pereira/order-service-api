@@ -13,9 +13,9 @@ import org.springframework.stereotype.Repository;
 import com.serviceorder.api.entity.Service;
 
 @Repository
-public interface ServiceRepository  extends JpaRepository<Service, Long> {
+public interface ServiceRepository extends JpaRepository<Service, Long> {
 
-	Optional<Service> findByUid(UUID uid);
+	Optional<Service> findByUid(UUID uid); 
 	
 	@Query(nativeQuery = true, value = "SELECT * FROM service s WHERE s.title LIKE %:keyword% OR s.description LIKE %:keyword%")
 	List<Service> findAllByKeyword(String keyword);
