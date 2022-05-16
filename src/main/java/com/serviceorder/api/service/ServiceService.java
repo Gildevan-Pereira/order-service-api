@@ -16,6 +16,7 @@ import com.serviceorder.api.entity.Service;
 import com.serviceorder.api.entity.dto.request.ServiceCreateReqDTO;
 import com.serviceorder.api.repository.ServiceCategoryRepository;
 import com.serviceorder.api.repository.ServiceRepository;
+import com.serviceorder.api.util.RemoveAccentsUtil;
 
 @org.springframework.stereotype.Service
 public class ServiceService implements Serializable {
@@ -32,7 +33,8 @@ public class ServiceService implements Serializable {
 	}
 
 	public List<Service> findByKeyword(String keyword) {
-		return repository.findAllByKeyword(keyword);
+		var tratedSt = RemoveAccentsUtil.removeAccents(keyword.toLowerCase());
+		return repository.findAllByKeyword(tratedSt);
 	}
 	
 	public List<Service> findByAmount(BigDecimal amount){
