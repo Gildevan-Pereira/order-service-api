@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,9 +34,20 @@ public class ServiceController {
 	}
 	
 	@PutMapping("/{uid}")
-	public ResponseEntity<Service> serviceUpdate(@RequestBody ServiceCreateReqDTO createReqDTO, @PathVariable UUID uid) {
+	public ResponseEntity<Service> update(@RequestBody ServiceCreateReqDTO createReqDTO, @PathVariable UUID uid) {
 		var update = service.serviceUpdate(createReqDTO, uid);
 		return ResponseEntity.ok(update);
+	}
+	
+	@DeleteMapping("/{uid}")
+	public ResponseEntity<Service> delete(@PathVariable("uid") UUID uid) {
+		service.remove(uid);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<Service>> findAll() {
+		return ResponseEntity.ok(service.findAll());
 	}
 	
 	@GetMapping("/{uid}")
@@ -43,7 +55,7 @@ public class ServiceController {
 		return ResponseEntity.ok(service.findByUid(uid));
 	}
 
-	@GetMapping("/keyword") 
+	@GetMapping("/search") 
 	public ResponseEntity<List<Service>> findByKeyword(@RequestParam("keyword") String keyword) {
 		var allService = service.findByKeyword(keyword);
 		return ResponseEntity.ok(allService);

@@ -29,5 +29,4 @@ public class Client extends Agent implements Serializable {
 	@JoinColumn(name = "address_id")
 	private Address address;
 	
-
 }

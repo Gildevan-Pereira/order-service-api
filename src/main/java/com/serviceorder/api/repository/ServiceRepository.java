@@ -18,18 +18,19 @@ public interface ServiceRepository extends JpaRepository<Service, Long> {
 	@Query(value = "SELECT s FROM Service s WHERE s.removedAt IS NULL AND s.uid = :uid") //JPQL
 	Optional<Service> findByUid(UUID uid); 
 	
-//	@Query(nativeQuery = true, value = "SELECT * FROM service s "
-//			+ "WHERE s.title LIKE %:keyword% OR s.description LIKE %:keyword%")
-//	List<Service> findAllByKeyword(String keyword);
+	@Query(value = "SELECT s FROM Service s WHERE s.removedAt IS NULL") //JPQL
+	List<Service> findAll(); 
 	
 	@Query(nativeQuery = true, value = "SELECT * FROM service s "
-			+ "WHERE LOWER(UNACCENT(s.title)) LIKE %:keyword%")
+			+ "WHERE LOWER(UNACCENT(s.title)) LIKE %:keyword% "
+			+ "OR LOWER(UNACCENT(s.description)) LIKE %:keyword%"
+			+ "AND s.removed_at IS NULL")
 	List<Service> findAllByKeyword(String keyword);
 	
-	@Query(value = "SELECT s FROM Service s WHERE (CAST(s.createdAt AS LocalDate)) BETWEEN :start AND :end") //Query JPQL
+	@Query(value = "SELECT s FROM Service s WHERE s.removedAt IS NULL AND (CAST(s.createdAt AS LocalDate)) BETWEEN :start AND :end") //Query JPQL
 	List<Service> findByDateBetweenStart(LocalDate start, LocalDate end);
 	
-	@Query(value = "SELECT s FROM Service s WHERE (CAST(s.removedAt AS LocalDate)) BETWEEN :start AND :end") //Query JPQL
+	@Query(value = "SELECT s FROM Service s WHERE s.removedAt IS NULL AND (CAST(s.removedAt AS LocalDate)) BETWEEN :start AND :end") //Query JPQL
 	List<Service> findByDateBetweenEnd(LocalDate start, LocalDate end);
 	
 	List<Service> findByAmount(BigDecimal amount);

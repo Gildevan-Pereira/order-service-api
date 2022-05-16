@@ -1,6 +1,7 @@
 package com.serviceorder.api.service;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,13 +15,14 @@ import com.serviceorder.api.entity.Client;
 import com.serviceorder.api.entity.dto.request.ClientCreateReqDTO;
 import com.serviceorder.api.entity.dto.request.builders.ClientBuilder;
 import com.serviceorder.api.repository.ClientRepository;
+import com.serviceorder.api.util.RemoveAccentsUtil;
 
 @Service
 public class ClientService implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Autowired
-	public ClientRepository clientRepository;
+	public ClientRepository repository;
 
 	@Autowired
 	public AddressService addressService;
@@ -28,15 +30,16 @@ public class ClientService implements Serializable {
 
 	public Client findByUid(UUID uid) {
 		// TODO: Construir tratamento de exceções quando o optional estiver vazio
-		return clientRepository.findByUid(uid).get();
+		return repository.findByUid(uid).get();
 	}
 
 	public List<Client> findAll() {
-		return clientRepository.findAll();
+		return repository.findAll();
 	}
 	
 	public List<Client> findByKeyword(String keyword) {
-		return clientRepository.findByKeyword(keyword);
+		var tratedStr = RemoveAccentsUtil.removeAccents(keyword.toLowerCase());
+		return repository.findByKeyword(tratedStr);
 	}
 	
 	public Client clientCreate(ClientCreateReqDTO request) {
@@ -47,11 +50,20 @@ public class ClientService implements Serializable {
 
 		newClient.setAddress(newAddress);
 
-		return clientRepository.save(newClient);
+		return repository.save(newClient);
+	}
+	
+	public void remove(UUID uid) { //Service for set removed_at
+		Client client = repository.findByUid(uid).get();
+		if (client.getRemovedAt() == null)
+			
+			client.setRemovedAt(LocalDateTime.now());
+		
+		repository.save(client);
 	}
 	
 	public Client clientUpdate(ClientCreateReqDTO request, UUID uid) {
-		Optional<Client> client = clientRepository.findByUid(uid);
+		Optional<Client> client = repository.findByUid(uid);
 		if(client.isPresent()) {
 			return updateFields(request, client.get());
 		}
@@ -77,6 +89,6 @@ public class ClientService implements Serializable {
 		client.setPhone(dto.getPhone());
 		client.setAddress(updAddress);
 		
-		return clientRepository.save(client);
+		return repository.save(client);
 	}
 }

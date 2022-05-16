@@ -1,5 +1,7 @@
 package com.serviceorder.api.repository;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -12,6 +14,15 @@ import com.serviceorder.api.entity.ServiceOrder;
 @Repository
 public interface ServiceOrderRepository extends JpaRepository<ServiceOrder, Long> {
 
-	@Query(value = "SELECT o FROM ServiceOrder o WHERE o.removedAt IS NULL AND o.uid = :uid") //JPQL
+	@Query(value = "SELECT so FROM ServiceOrder so WHERE so.removedAt IS NULL AND so.uid = :uid") //JPQL
 	Optional<ServiceOrder> findByUid(UUID uid);
+	
+	@Query(value = "SELECT so FROM ServiceOrder so WHERE so.removedAt IS NULL") //JPQL
+	List<ServiceOrder> findAll(); //Query Method JPA
+	
+	@Query(value = "SELECT so FROM ServiceOrder so WHERE (CAST(so.startedAt AS LocalDate)) BETWEEN :start AND :end") //Query JPQL
+	List<ServiceOrder> findByDateBetweenStart(LocalDate start, LocalDate end);
+	
+	@Query(value = "SELECT so FROM ServiceOrder so WHERE (CAST(so.finishedAt AS LocalDate)) BETWEEN :start AND :end") //Query JPQL
+	List<ServiceOrder> findByDateBetweenEnd(LocalDate start, LocalDate end);
 }

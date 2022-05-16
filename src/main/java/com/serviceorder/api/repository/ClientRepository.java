@@ -20,10 +20,10 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 	List<Client> findAll();
 	
 	@Query(nativeQuery = true, value = "SELECT * FROM client c "
-				+ "WHERE (c.fullname LIKE %:keyword% "
-				+ "	OR c.identity LIKE %:keyword% "
-				+ "	OR c.phone LIKE %:keyword%)"
-				+ "		AND c.removed_at IS NULL ") //JPQL
+			+ "WHERE LOWER(UNACCENT(c.fullname)) LIKE %:keyword% "
+			+ "OR  LOWER(UNACCENT(c.identity)) LIKE %:keyword% "
+			+ "OR  LOWER(UNACCENT(c.phone)) LIKE %:keyword% "
+			+ "AND c.removed_at IS NULL")
 	List<Client> findByKeyword(String keyword);
 	
 

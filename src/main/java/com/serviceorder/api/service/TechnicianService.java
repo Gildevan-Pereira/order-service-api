@@ -1,6 +1,7 @@
 package com.serviceorder.api.service;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,6 +15,7 @@ import com.serviceorder.api.entity.Technician;
 import com.serviceorder.api.entity.dto.request.TechnicianCreateReqDTO;
 import com.serviceorder.api.entity.dto.request.builders.TechnicianBuilder;
 import com.serviceorder.api.repository.TechnicianRepository;
+import com.serviceorder.api.util.RemoveAccentsUtil;
 
 @Service
 public class TechnicianService implements Serializable {
@@ -30,8 +32,13 @@ public class TechnicianService implements Serializable {
 		return repository.findByUid(uid).get();
 	}
 	
+	public List<Technician> findAll() {
+		return repository.findAll();
+	}
+	
 	public List<Technician> findByKeyword(String keyword) {
-		return repository.findByKeyword(keyword);
+		var tratedSt = RemoveAccentsUtil.removeAccents(keyword.toLowerCase());
+		return repository.findByKeyword(tratedSt);
 	}
 	
 	public Technician technicianCreat(TechnicianCreateReqDTO request) {
@@ -43,6 +50,15 @@ public class TechnicianService implements Serializable {
 		newTechnician.setAddress(newAddress);
 		
 		return repository.save(newTechnician);
+	}
+	
+	public void remove(UUID uid) { //Service for set removed_at
+		Technician technician = repository.findByUid(uid).get();
+		if (technician.getRemovedAt() == null)
+			
+			technician.setRemovedAt(LocalDateTime.now());
+		
+		repository.save(technician);
 	}
 	
 	public Technician technicianUpdate(TechnicianCreateReqDTO request, UUID uid) {

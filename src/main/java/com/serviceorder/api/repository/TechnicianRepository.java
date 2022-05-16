@@ -15,14 +15,16 @@ public interface TechnicianRepository extends JpaRepository<Technician, Long> {
 
 	@Query(value = "SELECT t FROM Technician t WHERE t.removedAt IS NULL AND t.uid = :uid") //JPQL
 	Optional<Technician> findByUid(UUID uid);
+	
+	@Query(value = "SELECT t FROM Technician t WHERE t.removedAt IS NULL") //JPQL
+	List<Technician> findAll(); //Query Method JPA
 
-	@Query(nativeQuery = true, value = "SELECT * FROM technician t  "
-			+ "WHERE (t.fullname LIKE %:keyword% "
-			+ "	OR t.identity LIKE %:keyword% "
-			+ "	OR t.phone LIKE %:keyword%)"
-			+ "OR t.phone LIKE %:keyword% "
-			+ "OR t.email LIKE %:keyword% "
-			+ "OR t.role LIKE %:keyword% "
-			+ "		AND t.removed_at IS NULL ") // JPQL
+	@Query(nativeQuery = true, value = "SELECT * FROM technician t "
+			+ "WHERE LOWER(UNACCENT(t.fullname)) LIKE %:keyword% "
+			+ "OR  LOWER(UNACCENT(t.identity)) LIKE %:keyword% "
+			+ "OR  LOWER(UNACCENT(t.phone)) LIKE %:keyword% "
+			+ "OR  LOWER(UNACCENT(t.email)) LIKE %:keyword% "
+			+ "OR  LOWER(UNACCENT(t.role)) LIKE %:keyword% "
+			+ "AND t.removed_at IS NULL")
 	List<Technician> findByKeyword(String keyword);
 }

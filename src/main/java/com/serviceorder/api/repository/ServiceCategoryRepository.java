@@ -16,7 +16,8 @@ public interface ServiceCategoryRepository extends JpaRepository<ServiceCategory
 	@Query(value = "SELECT sc FROM ServiceCategory sc WHERE sc.removedAt IS NULL AND sc.uid = :uid") //JPQL
 	Optional<ServiceCategory> findByUid(UUID uid); 
 	
-	Optional<ServiceCategory> findByName(String name);
+	@Query(value = "SELECT sc FROM ServiceCategory sc WHERE sc.removedAt IS NULL AND LOWER(UNACCENT(sc.name)) LIKE %:name%") //JPQL
+	List<ServiceCategory> findByName(String name);
 	
 	@Query(nativeQuery = true, value = "SELECT * FROM service_category sc WHERE sc.removed_at IS NULL") //Query Nativa
 	List<ServiceCategory> findAll();

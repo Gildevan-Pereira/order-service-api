@@ -1,7 +1,9 @@
 package com.serviceorder.api.service;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,10 @@ public class ServiceOrderService implements Serializable {
 
 	@Autowired
 	private ServiceService serviceService;
+	
+	public List<ServiceOrder> findAll() {
+		return repository.findAll();
+	}
 
 	public ServiceOrder findByUid(UUID uid) {
 		return repository.findByUid(uid).get();
@@ -56,7 +62,7 @@ public class ServiceOrderService implements Serializable {
 		
 		return repository.save(serviceOrder);
 	}
-
+	
 	public ServiceOrder finishedAt(UUID uid) { //Service for set finished_at
 		ServiceOrder serviceOrder = repository.findByUid(uid).get();
 		if (serviceOrder.getFinishedAt() == null)
@@ -66,4 +72,26 @@ public class ServiceOrderService implements Serializable {
 		return  repository.save(serviceOrder);
 		
 	}
+	
+	public List<ServiceOrder> findByBetween(String start, String end) {
+		var startDate = LocalDate.parse(start);
+		var endDate = LocalDate.parse(end);
+		return repository.findByDateBetweenStart(startDate, endDate);
+	}
+
+	public List<ServiceOrder> findByBetweenEnd(String start, String end) {
+		var startDate = LocalDate.parse(start);
+		var endDate = LocalDate.parse(end);
+		return repository.findByDateBetweenEnd(startDate, endDate);
+	}
+	
+	public void remove(UUID uid) { //Service for set removed_at
+		ServiceOrder serviceOrder = repository.findByUid(uid).get();
+		if (serviceOrder.getRemovedAt() == null)
+			
+			serviceOrder.setRemovedAt(LocalDateTime.now());
+		
+		repository.save(serviceOrder);
+	}
+
 }

@@ -1,5 +1,6 @@
 package com.serviceorder.api.repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -14,4 +15,7 @@ public interface AddressRepository extends JpaRepository<Address, Long>{
 	
 	@Query(value = "SELECT a FROM Address a WHERE a.removedAt IS NULL AND a.uid = :uid") //JPQL
 	Optional<Address> findByUid(UUID uid); //Query Method JPA
+	
+	@Query(value = "SELECT a FROM Address a WHERE a.removedAt IS NULL") //JPQL
+	List<Address> findAll(); //Query Method JPA
 }
