@@ -18,7 +18,6 @@ public class ServiceOrderCreateReqDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private UUID uid;
 	private ServiceCreateReqDTO service;
 	private UUID clientId;
 	private UUID technicianId;
