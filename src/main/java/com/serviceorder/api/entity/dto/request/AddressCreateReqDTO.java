@@ -23,26 +23,28 @@ public class AddressCreateReqDTO implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	@NotBlank(message = Messages.CATEGORY_NAME_IS_REQUIRED)
+	@NotBlank(message = Messages.ADDRESS_STREET_IS_REQUIRED)
 	private String street;
 
-	@NotBlank(message = Messages.CATEGORY_NAME_IS_REQUIRED)
+	@Pattern(regexp = "^(([0-9]{0,6})|([0-9]{0,6})([A-Z]))$", message = Messages.ADDRESS_NUMBER_IS_INVALID)
+	@NotNull(message = Messages.ADDRESS_NUMBER_IS_REQUIRED)
 	private String number;
 	
-	@NotBlank(message = Messages.CATEGORY_NAME_IS_REQUIRED)
+	@NotBlank(message = Messages.ADDRESS_DISTRICT_IS_REQUIRED)
 	private String district;
 	
-	@NotBlank(message = Messages.CATEGORY_NAME_IS_REQUIRED)
+	@Pattern(regexp = "^([\\d]{8})$", message = Messages.ADDRESS_ZIPCODE_IS_INVALID)
+	@NotBlank(message = Messages.ADDRESS_ZIPCODE_IS_REQUIRED)
 	private String zipcode;
 	
-	@NotBlank(message = Messages.CATEGORY_NAME_IS_REQUIRED)
+	@NotBlank(message = Messages.ADDRESS_CITY_IS_REQUIRED)
 	private String city;
 	
-	@Pattern(regexp = "^[A-Z]{2}$", message = Messages.ADDRESS_STATE_IS_INVALID)
 	@NotNull(message = Messages.ADDRESS_STATE_IS_REQUIRED)
+	@Pattern(regexp = "^[A-Z]{2}$", message = Messages.ADDRESS_STATE_IS_INVALID)
 	private String state;
 	
-	@NotBlank(message = Messages.CATEGORY_NAME_IS_REQUIRED)
+	@Pattern(regexp = "^[ a-zA-ZÀ-ú'\\d ]*$", message = Messages.ADDRESS_COMPLEMENT_IS_INVALID) // Letters, spaces and accented letters
 	private String complement;
 
 }

@@ -3,6 +3,8 @@ package com.serviceorder.api.controller;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,7 +29,7 @@ public class ServiceOrderController {
 	private ServiceOrderService service;
 	
 	@PostMapping
-	public ResponseEntity<ServiceOrder> create(@RequestBody ServiceOrderCreateReqDTO createReqDTO){
+	public ResponseEntity<ServiceOrder> create(@Valid @RequestBody ServiceOrderCreateReqDTO createReqDTO){
 		var newServiceOrder = service.create(createReqDTO);
 		return ResponseEntity.ok(newServiceOrder);
 	}

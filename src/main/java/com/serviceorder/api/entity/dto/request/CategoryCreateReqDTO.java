@@ -3,6 +3,7 @@ package com.serviceorder.api.entity.dto.request;
 import java.io.Serializable;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 import com.serviceorder.api.message.Messages;
 
@@ -20,6 +21,7 @@ import lombok.Setter;
 public class CategoryCreateReqDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	@Pattern(regexp = "^[ a-zA-ZÀ-ú' ]*$", message = Messages.CATEGORY_NAME_IS_INVALID) //Letters, spaces and accented letters
 	@NotBlank(message = Messages.CATEGORY_NAME_IS_REQUIRED)
 	private String name;
 }
