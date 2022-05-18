@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -25,7 +25,6 @@ public class ServiceCreateReqDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@NotNull(message = Messages.CATEGORY_ID_IS_REQUIRED)
-	@Pattern(regexp = "^([a-f\\d-]{36}$)", message = Messages.CATEGORY_ID_IS_INVALID)
 	private UUID categoryId;
 	
 	@NotNull(message = Messages.SERVICE_TITLE_IS_REQUIRED)
@@ -36,8 +35,8 @@ public class ServiceCreateReqDTO implements Serializable {
 	@Pattern(regexp = "^[ a-zA-ZÀ-ú'\\d ]*$", message = Messages.SERVICE_DESCRIPTION_IS_INVALID)
 	private String description;
 	
-	@NotBlank(message = Messages.SERVICE_AMOUNT_IS_REQUIRED)
-	@Pattern(regexp = "^([\\d]*$)", message = Messages.SERVICE_AMOUNT_IS_INVALID) // Numbers Zero to Nine
+	@NotNull(message = Messages.SERVICE_AMOUNT_IS_REQUIRED)
+	@DecimalMin(message = Messages.SERVICE_AMOUNT_IS_INVALID, value = "0.0")
 	private BigDecimal amount;
 	
 	@Pattern(regexp = "^[ a-zA-ZÀ-ú'\\d ]*$", message = Messages.SERVICE_REMARKS_IS_INVALID)

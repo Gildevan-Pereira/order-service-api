@@ -3,6 +3,8 @@ package com.serviceorder.api.controller;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,7 +27,7 @@ public class AddressController {
 	private AddressService service;
 
 	@PostMapping
-	public ResponseEntity<Address> create(@RequestBody AddressCreateReqDTO request) {
+	public ResponseEntity<Address> create(@Valid @RequestBody AddressCreateReqDTO request) {
 		
 		var newEndereco = service.create(request);
 		

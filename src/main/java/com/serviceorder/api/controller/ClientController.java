@@ -3,6 +3,8 @@ package com.serviceorder.api.controller;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,13 +30,13 @@ public class ClientController {
 	
 	//FIXME: Criar DTO de Response para "NÃO" retornar a ENTITY, bem como o BUILDER
 	@PostMapping
-	public ResponseEntity<Client> clientCreate(@RequestBody ClientCreateReqDTO request) {
+	public ResponseEntity<Client> clientCreate(@Valid @RequestBody ClientCreateReqDTO request) {
 		var newclient = service.clientCreate(request);
 		return ResponseEntity.ok(newclient);
 	} 
 	
 	@PutMapping("/{uid}")
-	public ResponseEntity<Client> clientUpdate(@RequestBody ClientCreateReqDTO createReqDTO, @PathVariable UUID uid) {
+	public ResponseEntity<Client> clientUpdate(@Valid @RequestBody ClientCreateReqDTO createReqDTO, @PathVariable UUID uid) {
 		return ResponseEntity.ok(service.clientUpdate(createReqDTO, uid));
 	}
 	

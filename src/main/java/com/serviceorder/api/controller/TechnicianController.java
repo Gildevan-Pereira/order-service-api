@@ -3,6 +3,8 @@ package com.serviceorder.api.controller;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,12 +29,12 @@ public class TechnicianController {
 	private TechnicianService service;
 	
 	@PostMapping
-	public ResponseEntity<Technician> technicianCreat(@RequestBody TechnicianCreateReqDTO request) {
+	public ResponseEntity<Technician> technicianCreat(@Valid @RequestBody TechnicianCreateReqDTO request) {
 		return ResponseEntity.ok(service.technicianCreat(request));
 	}
 	
 	@PutMapping("/{uid}")
-	public ResponseEntity<Technician> technicianUpdate(@RequestBody TechnicianCreateReqDTO createReqDTO, @PathVariable UUID uid) {
+	public ResponseEntity<Technician> technicianUpdate(@Valid @RequestBody TechnicianCreateReqDTO createReqDTO, @PathVariable UUID uid) {
 		var update = service.technicianUpdate(createReqDTO, uid);
 		return ResponseEntity.ok(update);
 	}

@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,13 +30,13 @@ public class ServiceController {
 	public ServiceService service;
 
 	@PostMapping
-	public ResponseEntity<Service> create(@RequestBody ServiceCreateReqDTO request) {
+	public ResponseEntity<Service> create(@Valid @RequestBody ServiceCreateReqDTO request) {
 		var newService = service.create(request);
 		return ResponseEntity.ok(newService);
 	}
 	
 	@PutMapping("/{uid}")
-	public ResponseEntity<Service> update(@RequestBody ServiceCreateReqDTO createReqDTO, @PathVariable UUID uid) {
+	public ResponseEntity<Service> update(@Valid @RequestBody ServiceCreateReqDTO createReqDTO, @PathVariable UUID uid) {
 		var update = service.serviceUpdate(createReqDTO, uid);
 		return ResponseEntity.ok(update);
 	}

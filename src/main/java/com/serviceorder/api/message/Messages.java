@@ -23,7 +23,6 @@ public class Messages {
 //	------------------------------------------------------------------------------------------------------------
 //	MESSAGES OF VALIDATION FOR ATRIBUTES OF SERVICE INVALID
 //	------------------------------------------------------------------------------------------------------------	
-	public static final String CATEGORY_ID_IS_INVALID = "102#Service, 'Category ID' is invalid!";
 	public static final String SERVICE_TITLE_IS_INVALID = "102#Service, 'Title' is invalid!";
 	public static final String SERVICE_DESCRIPTION_IS_INVALID = "102#Service, 'Description' is invalid!";
 	public static final String SERVICE_AMOUNT_IS_INVALID = "102#Service, 'Amount' is invalid!";

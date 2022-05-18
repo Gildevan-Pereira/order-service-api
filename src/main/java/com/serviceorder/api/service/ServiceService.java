@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -29,7 +30,7 @@ public class ServiceService implements Serializable {
 	@Autowired
 	private ServiceCategoryRepository categoryRepository;
 	
-	public Service create(ServiceCreateReqDTO request) {
+	public Service create(@Valid ServiceCreateReqDTO request) {
 
 		var category = categoryRepository.findByUid(request.getCategoryId());
 
