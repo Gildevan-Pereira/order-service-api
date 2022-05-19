@@ -8,10 +8,13 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.serviceorder.api.entity.ServiceOrder;
 import com.serviceorder.api.entity.dto.request.ServiceOrderCreateReqDTO;
 import com.serviceorder.api.entity.dto.request.builders.ServiceOrderBuilder;
+import com.serviceorder.api.exceptions.CustomException;
+import com.serviceorder.api.message.Messages;
 import com.serviceorder.api.repository.ServiceOrderRepository;
 
 @Service
@@ -36,9 +39,15 @@ public class ServiceOrderService implements Serializable {
 	}
 
 	public ServiceOrder findByUid(UUID uid) {
-		return repository.findByUid(uid).get();
+		var serviceOrder = repository.findByUid(uid);
+		
+		if(serviceOrder.isEmpty()) {
+			throw new CustomException(Messages.SERVICE_ORDER_NOT_FOUND);
+		}
+		return serviceOrder.get();
 	}
 	
+	@Transactional
 	public ServiceOrder create(ServiceOrderCreateReqDTO request) {  //Service for create a new service order
 
 		var client = clientService.findByUid(request.getClientId());
@@ -76,13 +85,13 @@ public class ServiceOrderService implements Serializable {
 	public List<ServiceOrder> findByBetween(String start, String end) {
 		var startDate = LocalDate.parse(start);
 		var endDate = LocalDate.parse(end);
-		return repository.findByDateBetweenStart(startDate, endDate);
+		return repository.findByStartedAtBetween(startDate, endDate);
 	}
 
 	public List<ServiceOrder> findByBetweenEnd(String start, String end) {
 		var startDate = LocalDate.parse(start);
 		var endDate = LocalDate.parse(end);
-		return repository.findByDateBetweenEnd(startDate, endDate);
+		return repository.findByFinishedAtBetween(startDate, endDate);
 	}
 	
 	public void remove(UUID uid) { //Service for set removed_at

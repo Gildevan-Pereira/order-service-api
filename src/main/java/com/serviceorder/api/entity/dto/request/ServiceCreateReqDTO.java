@@ -24,22 +24,22 @@ import lombok.Setter;
 public class ServiceCreateReqDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	@NotNull(message = Messages.CATEGORY_ID_IS_REQUIRED)
+	@NotNull(message = Messages.REQUIRED)
 	private UUID categoryId;
 	
-	@NotNull(message = Messages.SERVICE_TITLE_IS_REQUIRED)
-	@Pattern(regexp = "^[ a-zA-ZÀ-ú' ]*$", message = Messages.SERVICE_TITLE_IS_INVALID)
+	@NotNull(message = Messages.REQUIRED)
+	@Pattern(regexp = "^[ a-zA-ZÀ-ú' ]*$", message = Messages.INVALID)
 	private String title;
 	
-	@NotNull(message = Messages.SERVICE_DESCRIPTION_IS_REQUIRED)
-	@Pattern(regexp = "^[ a-zA-ZÀ-ú'\\d ]*$", message = Messages.SERVICE_DESCRIPTION_IS_INVALID)
+	@NotNull(message = Messages.REQUIRED)
+	@Pattern(regexp = "^[ a-zA-ZÀ-ú'\\d ]*$", message = Messages.INVALID)
 	private String description;
 	
-	@NotNull(message = Messages.SERVICE_AMOUNT_IS_REQUIRED)
-	@DecimalMin(message = Messages.SERVICE_AMOUNT_IS_INVALID, value = "0.0")
+	@NotNull(message = Messages.REQUIRED)
+	@DecimalMin(message = Messages.INVALID, value = "0.0")
 	private BigDecimal amount;
 	
-	@Pattern(regexp = "^[ a-zA-ZÀ-ú'\\d ]*$", message = Messages.SERVICE_REMARKS_IS_INVALID)
-	@NotNull(message = Messages.SERVICE_REMARKS_IS_REQUIRED)
+	@Pattern(regexp = "^[ a-zA-ZÀ-ú'\\d ]*$", message = Messages.INVALID)
+	@NotNull(message = Messages.REQUIRED)
 	private String remarks;
 }

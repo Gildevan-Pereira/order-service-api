@@ -31,13 +31,13 @@ public class ClientController {
 	//FIXME: Criar DTO de Response para "NÃO" retornar a ENTITY, bem como o BUILDER
 	@PostMapping
 	public ResponseEntity<Client> clientCreate(@Valid @RequestBody ClientCreateReqDTO request) {
-		var newclient = service.clientCreate(request);
+		var newclient = service.create(request);
 		return ResponseEntity.ok(newclient);
 	} 
 	
 	@PutMapping("/{uid}")
 	public ResponseEntity<Client> clientUpdate(@Valid @RequestBody ClientCreateReqDTO createReqDTO, @PathVariable UUID uid) {
-		return ResponseEntity.ok(service.clientUpdate(createReqDTO, uid));
+		return ResponseEntity.ok(service.update(createReqDTO, uid));
 	}
 	
 	@DeleteMapping("/{uid}")

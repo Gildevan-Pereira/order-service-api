@@ -6,14 +6,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.serviceorder.api.entity.Address;
 import com.serviceorder.api.entity.Client;
 import com.serviceorder.api.entity.dto.request.ClientCreateReqDTO;
 import com.serviceorder.api.entity.dto.request.builders.ClientBuilder;
+import com.serviceorder.api.exceptions.CustomException;
+import com.serviceorder.api.message.Messages;
+import com.serviceorder.api.repository.AddressRepository;
 import com.serviceorder.api.repository.ClientRepository;
 import com.serviceorder.api.util.RemoveAccentsUtil;
 
@@ -23,14 +26,20 @@ public class ClientService implements Serializable {
 
 	@Autowired
 	public ClientRepository repository;
+	
+	@Autowired
+	public AddressRepository addressRepository;
 
 	@Autowired
 	public AddressService addressService;
 	
 
 	public Client findByUid(UUID uid) {
-		// TODO: Construir tratamento de exceções quando o optional estiver vazio
-		return repository.findByUid(uid).get();
+		var client = repository.findByUid(uid);
+		if(client.isEmpty()) {
+			throw new CustomException(Messages.CLIENT_NOT_FOUND);
+		}
+		return client.get();
 	}
 
 	public List<Client> findAll() {
@@ -42,7 +51,8 @@ public class ClientService implements Serializable {
 		return repository.findByKeyword(tratedStr);
 	}
 	
-	public Client clientCreate(ClientCreateReqDTO request) {
+	@Transactional
+	public Client create(ClientCreateReqDTO request) {
 
 		var newAddress = addressService.create(request.getAddress());
 
@@ -53,16 +63,21 @@ public class ClientService implements Serializable {
 		return repository.save(newClient);
 	}
 	
+	@Transactional
 	public void remove(UUID uid) { //Service for set removed_at
 		Client client = repository.findByUid(uid).get();
-		if (client.getRemovedAt() == null)
+		Address address = addressService.findByUid(client.getAddress().getUid());
+		if (client.getRemovedAt() == null || address.getRemovedAt() == null)
 			
 			client.setRemovedAt(LocalDateTime.now());
-		
+			address.setRemovedAt(LocalDateTime.now());
+			
+		addressRepository.save(address);
 		repository.save(client);
 	}
 	
-	public Client clientUpdate(ClientCreateReqDTO request, UUID uid) {
+	@Transactional
+	public Client update(ClientCreateReqDTO request, UUID uid) {
 		Optional<Client> client = repository.findByUid(uid);
 		if(client.isPresent()) {
 			return updateFields(request, client.get());

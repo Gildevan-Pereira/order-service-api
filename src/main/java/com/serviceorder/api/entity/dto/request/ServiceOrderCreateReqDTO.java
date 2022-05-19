@@ -24,16 +24,16 @@ public class ServiceOrderCreateReqDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Valid
-	@NotNull(message = Messages.SERVICE_IS_REQUIRED)
+	@NotNull(message = Messages.REQUIRED)
 	private ServiceCreateReqDTO service;
 
-	@NotNull(message = Messages.CLIENT_ID_IS_REQUIRED)
+	@NotNull(message = Messages.REQUIRED)
 	private UUID clientId;
 
-	@NotNull(message = Messages.TECHNICIAN_ID_IS_REQUIRED)
+	@NotNull(message = Messages.REQUIRED)
 	private UUID technicianId;
 	
-	@Pattern(regexp = "^[ a-zA-ZÀ-ú'\\d ]*$", message = Messages.SERVICEORDER_REMARKS_IS_INVALID)
-	@NotNull(message = Messages.SERVICEORDER_REMARKS_IS_REQUIRED)
+	@Pattern(regexp = "^[ a-zA-ZÀ-ú'\\d ]*$", message = Messages.INVALID)
+	@NotNull(message = Messages.REQUIRED)
 	private String remarks;
 }

@@ -39,10 +39,10 @@ public class ServiceOrder extends BaseEntity implements Serializable {
 	@JoinColumn(name = "technician_id")
 	private Technician technician;
 	
-	@Column(name = "started_at")
+	@Column(name = "started_at", updatable = false)
 	private LocalDateTime startedAt;
 	
-	@Column(name = "finished_at")
+	@Column(name = "finished_at", updatable = false)
 	private LocalDateTime finishedAt;
 	
 	private String remarks;

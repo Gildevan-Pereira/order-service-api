@@ -2,7 +2,6 @@ package com.serviceorder.api.entity.dto.request;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -23,28 +22,31 @@ public class AddressCreateReqDTO implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	@NotBlank(message = Messages.ADDRESS_STREET_IS_REQUIRED)
+	@NotNull(message = Messages.REQUIRED)
+	@Pattern(regexp = "^[ a-zA-ZÀ-ú' ]+[\\d]*$", message = Messages.INVALID) // Letters, spaces and accented letters
 	private String street;
 
-	@Pattern(regexp = "^(([0-9]{0,6})|([0-9]{0,6})([A-Z]))$", message = Messages.ADDRESS_NUMBER_IS_INVALID)
-	@NotNull(message = Messages.ADDRESS_NUMBER_IS_REQUIRED)
+	@NotNull(message = Messages.REQUIRED)
+	@Pattern(regexp = "^(([0-9]{0,6} )|([0-9]{0,6} )([A-Z]))$", message = Messages.INVALID)
 	private String number;
 	
-	@NotBlank(message = Messages.ADDRESS_DISTRICT_IS_REQUIRED)
+	@NotNull(message = Messages.REQUIRED)
+	@Pattern(regexp = "^[ a-zA-ZÀ-ú' ]{3,}+[\\d]*$", message = Messages.INVALID) // Letters, spaces and accented letters
 	private String district;
 	
-	@Pattern(regexp = "^([\\d]{8})$", message = Messages.ADDRESS_ZIPCODE_IS_INVALID)
-	@NotBlank(message = Messages.ADDRESS_ZIPCODE_IS_REQUIRED)
+	@NotNull(message = Messages.REQUIRED)
+	@Pattern(regexp = "^([\\d]{8})$", message = Messages.INVALID)
 	private String zipcode;
 	
-	@NotBlank(message = Messages.ADDRESS_CITY_IS_REQUIRED)
+	@NotNull(message = Messages.REQUIRED)
+	@Pattern(regexp = "^[ a-zA-ZÀ-ú' ]*$", message = Messages.INVALID) // Letters, spaces and accented letters
 	private String city;
 	
-	@NotNull(message = Messages.ADDRESS_STATE_IS_REQUIRED)
-	@Pattern(regexp = "^[A-Z]{2}$", message = Messages.ADDRESS_STATE_IS_INVALID)
+	@NotNull(message = Messages.REQUIRED)
+	@Pattern(regexp = "^[A-Z]{2}$", message = Messages.INVALID)
 	private String state;
 	
-	@Pattern(regexp = "^[ a-zA-ZÀ-ú'\\d ]*$", message = Messages.ADDRESS_COMPLEMENT_IS_INVALID) // Letters, spaces and accented letters
+	@Pattern(regexp = "^[ a-zA-ZÀ-ú',. ]+[\\d]*$", message = Messages.INVALID) // Letters, spaces and accented letters
 	private String complement;
 
 }

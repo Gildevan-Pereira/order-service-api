@@ -21,8 +21,8 @@ public interface ServiceOrderRepository extends JpaRepository<ServiceOrder, Long
 	List<ServiceOrder> findAll(); //Query Method JPA
 	
 	@Query(value = "SELECT so FROM ServiceOrder so WHERE (CAST(so.startedAt AS LocalDate)) BETWEEN :start AND :end") //Query JPQL
-	List<ServiceOrder> findByDateBetweenStart(LocalDate start, LocalDate end);
+	List<ServiceOrder> findByStartedAtBetween(LocalDate start, LocalDate end);
 	
 	@Query(value = "SELECT so FROM ServiceOrder so WHERE (CAST(so.finishedAt AS LocalDate)) BETWEEN :start AND :end") //Query JPQL
-	List<ServiceOrder> findByDateBetweenEnd(LocalDate start, LocalDate end);
+	List<ServiceOrder> findByFinishedAtBetween(LocalDate start, LocalDate end);
 }

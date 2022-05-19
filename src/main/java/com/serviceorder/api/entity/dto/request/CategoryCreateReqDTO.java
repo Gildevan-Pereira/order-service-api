@@ -21,7 +21,7 @@ import lombok.Setter;
 public class CategoryCreateReqDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	@Pattern(regexp = "^[ a-zA-ZÀ-ú' ]*$", message = Messages.CATEGORY_NAME_IS_INVALID) //Letters, spaces and accented letters
-	@NotBlank(message = Messages.CATEGORY_NAME_IS_REQUIRED)
+	@Pattern(regexp = "^[ a-zA-ZÀ-ú' ]*$", message = Messages.INVALID) //Letters, spaces and accented letters
+	@NotBlank(message = Messages.REQUIRED)
 	private String name;
 }

@@ -30,7 +30,7 @@ public class TechnicianController {
 	
 	@PostMapping
 	public ResponseEntity<Technician> technicianCreat(@Valid @RequestBody TechnicianCreateReqDTO request) {
-		return ResponseEntity.ok(service.technicianCreat(request));
+		return ResponseEntity.ok(service.create(request));
 	}
 	
 	@PutMapping("/{uid}")

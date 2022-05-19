@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.transaction.Transactional;
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.serviceorder.api.entity.Service;
 import com.serviceorder.api.entity.dto.request.ServiceCreateReqDTO;
 import com.serviceorder.api.entity.dto.request.builders.ServiceBuilder;
+import com.serviceorder.api.exceptions.CustomException;
+import com.serviceorder.api.message.Messages;
 import com.serviceorder.api.repository.ServiceCategoryRepository;
 import com.serviceorder.api.repository.ServiceRepository;
 import com.serviceorder.api.util.RemoveAccentsUtil;
@@ -30,7 +30,8 @@ public class ServiceService implements Serializable {
 	@Autowired
 	private ServiceCategoryRepository categoryRepository;
 	
-	public Service create(@Valid ServiceCreateReqDTO request) {
+	@Transactional
+	public Service create(ServiceCreateReqDTO request) {
 
 		var category = categoryRepository.findByUid(request.getCategoryId());
 
@@ -42,7 +43,11 @@ public class ServiceService implements Serializable {
 	}
 
 	public Service findByUid(UUID uid) {
-		return repository.findByUid(uid).get();
+		var service = repository.findByUid(uid);
+		if(service.isEmpty()) {
+			throw new CustomException(Messages.SERVICE_NOT_FOUND);
+		}
+		return service.get();
 	}
 	
 	public List<Service> findAll() {
@@ -79,6 +84,7 @@ public class ServiceService implements Serializable {
 		repository.save(service);
 	}
 	
+	@Transactional
 	public Service serviceUpdate(ServiceCreateReqDTO request, UUID uid) {
 		Optional<Service> service = repository.findByUid(uid);
 		if (service.isPresent()) {

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import com.serviceorder.api.entity.Address;
 import com.serviceorder.api.entity.dto.request.AddressCreateReqDTO;
 import com.serviceorder.api.entity.dto.request.builders.AddressBuilder;
+import com.serviceorder.api.exceptions.CustomException;
+import com.serviceorder.api.message.Messages;
 import com.serviceorder.api.repository.AddressRepository;
 
 @Service
@@ -26,8 +28,11 @@ public class AddressService implements Serializable {
 	}
 	
 	public Address findByUid(UUID uid) {
-		// TODO: Construir tratamento de exceções quando o optional estiver vazio
-		return repository.findByUid(uid).get();
+		var address = repository.findByUid(uid);
+		if(address.isEmpty()) {
+			throw new CustomException(Messages.ADDRESS_NOT_FOUND);
+		}
+		return address.get();
 	}
 	
 	public Address create(AddressCreateReqDTO request) {

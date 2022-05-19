@@ -28,38 +28,32 @@ public class ClientCreateReqDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Size(max = 150)
-	@Pattern(regexp = "^[ a-zA-ZÀ-ú' ]*$", message = Messages.CLIENT_FULLNAME_IS_INVALID) //Letters, spaces and accented letters
-	@NotBlank(message = Messages.CLIENT_FULLNAME_IS_REQUIRED)
+	@NotBlank(message = Messages.REQUIRED)
+	@Pattern(regexp = "^[ a-zA-ZÀ-ú' ]*$", message = Messages.INVALID) //Letters, spaces and accented letters
 	private String fullname;
 	
-	@CPF(message = Messages.CLIENT_IDENTITY_IS_INVALID) // Numbers of Zero to Nine and have eleven digits 
-	@NotNull(message = Messages.CLIENT_IDENTITY_IS_REQUIRED)
+	@NotBlank(message = Messages.REQUIRED)
+	@CPF(message = Messages.INVALID) // Numbers of Zero to Nine and have eleven digits 
 	private String identity;
 	
-	@Size(max = 10)
+	@Size(max = 11, min = 10)
 	@Pattern(regexp = "^([\\d]{2})([\\d]{4,5})([\\d]{4})$", //E.g: (XX) X XXXX XXXX  ||  (XX) XXXX XXXX
-			message = Messages.CLIENT_PHONE_IS_INVALID) 
-	@NotNull(message = Messages.CLIENT_PHONE_IS_REQUIRED)
+			message = Messages.INVALID) 
+	@NotBlank(message = Messages.REQUIRED)
 	private String phone;
 	
-	@Email(message = Messages.CLIENT_EMAIL_IS_INVALID)
+	@Pattern(regexp = "^([a-z]){1,}([a-z0-9._-]){1,}([@]){1}([a-z]){2,}([.]){1}([a-z]){2,}([.]?){1}([a-z]?){3,}$",
+			message = Messages.REQUIRED)
+	@Email(message = Messages.INVALID)
 	@Size(max = 75)
-	@NotBlank(message = Messages.CLIENT_EMAIL_IS_REQUIRED)
+	@NotBlank(message = Messages.REQUIRED)
 	private String email;
 	
 	@Valid
-	@NotNull(message = Messages.ADDRESS_IS_REQUIRED)
+	@NotNull(message = Messages.REQUIRED)
 	private AddressCreateReqDTO address;
 	
-	
-//	FIXME: REMOVER ESTE CÓDIGO
-//	public static void main(String[] args) {
-//		var teste = "81981185639";
-//		
-//		var correto = teste.matches("^([a-zA-z])");
-//		
-//		System.out.println(correto);
-//	}
+
 }
 
 

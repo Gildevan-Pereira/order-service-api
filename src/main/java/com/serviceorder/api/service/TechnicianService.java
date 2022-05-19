@@ -6,14 +6,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.serviceorder.api.entity.Address;
 import com.serviceorder.api.entity.Technician;
 import com.serviceorder.api.entity.dto.request.TechnicianCreateReqDTO;
 import com.serviceorder.api.entity.dto.request.builders.TechnicianBuilder;
+import com.serviceorder.api.exceptions.CustomException;
+import com.serviceorder.api.message.Messages;
+import com.serviceorder.api.repository.AddressRepository;
 import com.serviceorder.api.repository.TechnicianRepository;
 import com.serviceorder.api.util.RemoveAccentsUtil;
 
@@ -25,11 +28,19 @@ public class TechnicianService implements Serializable {
 	@Autowired
 	private TechnicianRepository repository;
 	
+
+	@Autowired
+	private AddressRepository addressRepository;
+	
 	@Autowired
 	public AddressService addressService;
 	
 	public Technician findByUid(UUID uid) {
-		return repository.findByUid(uid).get();
+		var technician = repository.findByUid(uid);
+		if(technician.isEmpty()) {
+			throw new CustomException(Messages.TECHNICIAN_NOT_FOUND);
+		}
+		return technician.get();
 	}
 	
 	public List<Technician> findAll() {
@@ -41,7 +52,8 @@ public class TechnicianService implements Serializable {
 		return repository.findByKeyword(tratedSt);
 	}
 	
-	public Technician technicianCreat(TechnicianCreateReqDTO request) {
+	@Transactional
+	public Technician create(TechnicianCreateReqDTO request) {
 		
 		var newAddress = addressService.create(request.getAddress());
 		
@@ -52,15 +64,20 @@ public class TechnicianService implements Serializable {
 		return repository.save(newTechnician);
 	}
 	
+	@Transactional
 	public void remove(UUID uid) { //Service for set removed_at
 		Technician technician = repository.findByUid(uid).get();
+		Address address = addressService.findByUid(technician.getAddress().getUid());
 		if (technician.getRemovedAt() == null)
 			
 			technician.setRemovedAt(LocalDateTime.now());
+			address.setRemovedAt(LocalDateTime.now());
 		
+		addressRepository.save(address);
 		repository.save(technician);
 	}
 	
+	@Transactional
 	public Technician technicianUpdate(TechnicianCreateReqDTO request, UUID uid) {
 		Optional<Technician> technician = repository.findByUid(uid);
 		if(technician.isPresent()) {
