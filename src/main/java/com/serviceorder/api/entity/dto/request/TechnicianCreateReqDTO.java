@@ -7,6 +7,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.br.CPF;
@@ -31,8 +32,8 @@ public class TechnicianCreateReqDTO implements Serializable {
 	@NotBlank(message = Messages.REQUIRED)
 	private String role;
 	
-	@Pattern(regexp = "^([\\d]*$)", message = Messages.INVALID) // Numbers Zero to Nine
-	@NotBlank(message = Messages.REQUIRED)
+	@PositiveOrZero(message = Messages.INVALID) // Numbers Zero to Nine
+	@NotNull(message = Messages.REQUIRED)
 	private Double commission;
 	
 	@Pattern(regexp = "^[ a-zA-ZÀ-ú' ]*$", message = Messages.INVALID) // Letters, spaces and accented letters

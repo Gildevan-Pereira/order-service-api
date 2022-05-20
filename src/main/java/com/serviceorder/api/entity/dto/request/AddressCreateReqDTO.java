@@ -27,7 +27,7 @@ public class AddressCreateReqDTO implements Serializable {
 	private String street;
 
 	@NotNull(message = Messages.REQUIRED)
-	@Pattern(regexp = "^(([0-9]{0,6} )|([0-9]{0,6} )([A-Z]))$", message = Messages.INVALID)
+//	@Pattern(regexp = "^(([0-9]{0,6} )|([0-9]{0,6} )([A-Z]))$", message = Messages.INVALID)
 	private String number;
 	
 	@NotNull(message = Messages.REQUIRED)

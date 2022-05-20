@@ -9,8 +9,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.br.CPF;
-
 import com.serviceorder.api.message.Messages;
 
 import lombok.AllArgsConstructor;
@@ -33,7 +31,7 @@ public class ClientCreateReqDTO implements Serializable {
 	private String fullname;
 	
 	@NotBlank(message = Messages.REQUIRED)
-	@CPF(message = Messages.INVALID) // Numbers of Zero to Nine and have eleven digits 
+//	@CPF(message = Messages.INVALID) // Numbers of Zero to Nine and have eleven digits 
 	private String identity;
 	
 	@Size(max = 11, min = 10)
