@@ -1,4 +1,4 @@
-package com.serviceorder.api.exceptions.err;
+package com.serviceorder.api.exceptions.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,7 +15,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @JsonInclude(value = Include.NON_NULL)
-public class Error {
+public class ErrorDTO {
 
 	private Integer httpStatus;
 	private LocalDateTime dateTime;
@@ -34,18 +34,18 @@ public class Error {
 	}
 
 
-	public Error(Integer code, String message) {
+	public ErrorDTO(Integer code, String message) {
 		this.code = code;
 		this.message = message;
 		this.dateTime = LocalDateTime.now();
 	}
 
 
-	public static Error parse(String message) {
+	public static ErrorDTO parse(String message) {
 		String[] array = message.split("#");
 		Integer code = Integer.parseInt(array[0]);
 		String errMessage = array[1];
-		return new Error(code, errMessage);
+		return new ErrorDTO(code, errMessage);
 	}
 		
 }

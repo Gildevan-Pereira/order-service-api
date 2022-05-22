@@ -3,17 +3,17 @@ package com.serviceorder.api.service;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serviceorder.api.entity.Address;
 import com.serviceorder.api.entity.Technician;
-import com.serviceorder.api.entity.dto.request.TechnicianCreateReqDTO;
-import com.serviceorder.api.entity.dto.request.builders.TechnicianBuilder;
+import com.serviceorder.api.entity.builders.TechnicianBuilder;
+import com.serviceorder.api.entity.dto.TechnicianCreateReqDTO;
 import com.serviceorder.api.exceptions.CustomException;
 import com.serviceorder.api.message.Messages;
 import com.serviceorder.api.repository.AddressRepository;
@@ -27,7 +27,6 @@ public class TechnicianService implements Serializable {
 	
 	@Autowired
 	private TechnicianRepository repository;
-	
 
 	@Autowired
 	private AddressRepository addressRepository;
@@ -36,15 +35,12 @@ public class TechnicianService implements Serializable {
 	public AddressService addressService;
 	
 	public Technician findByUid(UUID uid) {
-		var technician = repository.findByUid(uid);
-		if(technician.isEmpty()) {
-			throw new CustomException(Messages.TECHNICIAN_NOT_FOUND);
-		}
-		return technician.get();
-	}
+		return repository.findByUid(uid)
+				.orElseThrow(() -> new CustomException(Messages.TECHNICIAN_NOT_FOUND));
+	}	
 	
-	public List<Technician> findAll() {
-		return repository.findAll();
+	public Page<Technician> findAllByFilter(Pageable pageable) {
+		return repository.findAllByFilter(pageable);
 	}
 	
 	public List<Technician> findByKeyword(String keyword) {
@@ -56,7 +52,6 @@ public class TechnicianService implements Serializable {
 	public Technician create(TechnicianCreateReqDTO request) {
 		
 		var newAddress = addressService.create(request.getAddress());
-		
 		var newTechnician = TechnicianBuilder.build(request);
 		
 		newTechnician.setAddress(newAddress);
@@ -65,25 +60,21 @@ public class TechnicianService implements Serializable {
 	}
 	
 	@Transactional
-	public void remove(UUID uid) { //Service for set removed_at
-		Technician technician = repository.findByUid(uid).get();
-		Address address = addressService.findByUid(technician.getAddress().getUid());
-		if (technician.getRemovedAt() == null)
-			
-			technician.setRemovedAt(LocalDateTime.now());
-			address.setRemovedAt(LocalDateTime.now());
+	public void remove(UUID uid) {
+		var technician = findByUid(uid);
+		var address = addressService.findByUid(technician.getAddress().getUid());
+		
+		technician.setRemovedAt(LocalDateTime.now());
+		address.setRemovedAt(LocalDateTime.now());
 		
 		addressRepository.save(address);
 		repository.save(technician);
 	}
 	
 	@Transactional
-	public Technician technicianUpdate(TechnicianCreateReqDTO request, UUID uid) {
-		Optional<Technician> technician = repository.findByUid(uid);
-		if(technician.isPresent()) {
-			return updateFields(request, technician.get());
-		}
-		return null;
+	public Technician update(TechnicianCreateReqDTO request, UUID uid) {
+		var technician = findByUid(uid);
+		return updateFields(request, technician);
 	}
 	
 	@Transactional  //This annotation ensures that all operations must be completed successfully

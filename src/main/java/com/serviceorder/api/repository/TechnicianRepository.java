@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -17,7 +19,7 @@ public interface TechnicianRepository extends JpaRepository<Technician, Long> {
 	Optional<Technician> findByUid(UUID uid);
 	
 	@Query(value = "SELECT t FROM Technician t WHERE t.removedAt IS NULL") //JPQL
-	List<Technician> findAll(); //Query Method JPA
+	Page<Technician> findAllByFilter(Pageable pageable); //Query Method JPA
 
 	@Query(nativeQuery = true, value = "SELECT * FROM technician t "
 			+ "WHERE LOWER(UNACCENT(t.fullname)) LIKE %:keyword% "

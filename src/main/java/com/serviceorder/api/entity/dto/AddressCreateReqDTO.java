@@ -1,4 +1,4 @@
-package com.serviceorder.api.entity.dto.request;
+package com.serviceorder.api.entity.dto;
 
 import java.io.Serializable;
 

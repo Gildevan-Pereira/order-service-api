@@ -1,12 +1,15 @@
 package com.serviceorder.api.controller;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,11 +22,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.serviceorder.api.entity.Service;
-import com.serviceorder.api.entity.dto.request.ServiceCreateReqDTO;
+import com.serviceorder.api.entity.dto.ServiceCreateReqDTO;
 import com.serviceorder.api.service.ServiceService;
 
 @RestController
-@RequestMapping(value = "/service")
+@RequestMapping("/v1/services")
 public class ServiceController {
 
 	@Autowired
@@ -37,7 +40,7 @@ public class ServiceController {
 	
 	@PutMapping("/{uid}")
 	public ResponseEntity<Service> update(@Valid @RequestBody ServiceCreateReqDTO createReqDTO, @PathVariable UUID uid) {
-		var update = service.serviceUpdate(createReqDTO, uid);
+		var update = service.update(createReqDTO, uid);
 		return ResponseEntity.ok(update);
 	}
 	
@@ -48,8 +51,10 @@ public class ServiceController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Service>> findAll() {
-		return ResponseEntity.ok(service.findAll());
+	public ResponseEntity<Page<Service>> findAllByFilter(
+			@PageableDefault(direction = Direction.DESC, sort ="createdAt",
+			page =0, size = 24) Pageable pageable){
+		return ResponseEntity.ok(service.findAllByFilter(pageable));
 	}
 	
 	@GetMapping("/{uid}")
@@ -70,6 +75,7 @@ public class ServiceController {
 		var allService = service.findByBetween(start, end);
 		return ResponseEntity.ok(allService);
 	}
+	
 	@GetMapping("/between/end") 
 	public ResponseEntity<List<Service>> findByDateBetweenEnd(
 			@RequestParam(value = "start", required = true) String start,
@@ -78,10 +84,4 @@ public class ServiceController {
 		return ResponseEntity.ok(allService);
 	}
 	
-	@GetMapping("/amount")
-	public ResponseEntity<List<Service>> findByAmount(@RequestParam("amount") BigDecimal amount){
-		var allService = service.findByAmount(amount);
-		//TODO: Set any method for return estimated value 
-		return ResponseEntity.ok(allService);
-	}
 }

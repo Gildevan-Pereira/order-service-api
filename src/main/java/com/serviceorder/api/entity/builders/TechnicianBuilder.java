@@ -1,7 +1,9 @@
-package com.serviceorder.api.entity.dto.request.builders;
+package com.serviceorder.api.entity.builders;
+
+import java.time.LocalDateTime;
 
 import com.serviceorder.api.entity.Technician;
-import com.serviceorder.api.entity.dto.request.TechnicianCreateReqDTO;
+import com.serviceorder.api.entity.dto.TechnicianCreateReqDTO;
 
 public class TechnicianBuilder {
 	
@@ -14,6 +16,7 @@ public class TechnicianBuilder {
 				.phone(tecDto.getPhone())
 				.role(tecDto.getRole())
 				.commission(tecDto.getCommission())
+				.createdAt(LocalDateTime.now())
 				.build();
 	}
 }

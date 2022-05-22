@@ -1,7 +1,9 @@
-package com.serviceorder.api.entity.dto.request.builders;
+package com.serviceorder.api.entity.builders;
+
+import java.time.LocalDateTime;
 
 import com.serviceorder.api.entity.Service;
-import com.serviceorder.api.entity.dto.request.ServiceCreateReqDTO;
+import com.serviceorder.api.entity.dto.ServiceCreateReqDTO;
 
 public class ServiceBuilder {
 
@@ -12,6 +14,7 @@ public static Service build(ServiceCreateReqDTO seReqDTO) {
 				.description(seReqDTO.getDescription())
 				.amount(seReqDTO.getAmount())
 				.remarks(seReqDTO.getRemarks())
+				.createdAt(LocalDateTime.now())
 				.build();
 	}
 }

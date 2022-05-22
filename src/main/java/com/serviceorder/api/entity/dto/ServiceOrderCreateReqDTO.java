@@ -1,4 +1,4 @@
-package com.serviceorder.api.entity.dto.request;
+package com.serviceorder.api.entity.dto;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import com.serviceorder.api.entity.domain.ServiceOrderStatus;
 import com.serviceorder.api.message.Messages;
 
 import lombok.AllArgsConstructor;
@@ -36,4 +37,6 @@ public class ServiceOrderCreateReqDTO implements Serializable {
 	@Pattern(regexp = "^[ a-zA-ZÀ-ú'\\d ]*$", message = Messages.INVALID)
 	@NotNull(message = Messages.REQUIRED)
 	private String remarks;
+	
+	private ServiceOrderStatus status;
 }

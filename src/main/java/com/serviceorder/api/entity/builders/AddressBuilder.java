@@ -1,7 +1,9 @@
-package com.serviceorder.api.entity.dto.request.builders;
+package com.serviceorder.api.entity.builders;
+
+import java.time.LocalDateTime;
 
 import com.serviceorder.api.entity.Address;
-import com.serviceorder.api.entity.dto.request.AddressCreateReqDTO;
+import com.serviceorder.api.entity.dto.AddressCreateReqDTO;
 
 public class AddressBuilder {
 	
@@ -15,6 +17,7 @@ public class AddressBuilder {
 				.zipcode(addressDto.getZipcode())
 				.state(addressDto.getState())
 				.complement(addressDto.getComplement())
+				.createdAt(LocalDateTime.now())
 				.build();
 	}
 

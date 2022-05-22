@@ -3,17 +3,17 @@ package com.serviceorder.api.service;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serviceorder.api.entity.Address;
 import com.serviceorder.api.entity.Client;
-import com.serviceorder.api.entity.dto.request.ClientCreateReqDTO;
-import com.serviceorder.api.entity.dto.request.builders.ClientBuilder;
+import com.serviceorder.api.entity.builders.ClientBuilder;
+import com.serviceorder.api.entity.dto.ClientCreateReqDTO;
 import com.serviceorder.api.exceptions.CustomException;
 import com.serviceorder.api.message.Messages;
 import com.serviceorder.api.repository.AddressRepository;
@@ -35,15 +35,12 @@ public class ClientService implements Serializable {
 	
 
 	public Client findByUid(UUID uid) {
-		var client = repository.findByUid(uid);
-		if(client.isEmpty()) {
-			throw new CustomException(Messages.CLIENT_NOT_FOUND);
-		}
-		return client.get();
+		return repository.findByUid(uid)
+				.orElseThrow(() -> new CustomException(Messages.CLIENT_NOT_FOUND));
 	}
 
-	public List<Client> findAll() {
-		return repository.findAll();
+	public Page<Client> findAllByFilter(Pageable pageable) {
+		return repository.findAllByFilter(pageable);
 	}
 	
 	public List<Client> findByKeyword(String keyword) {
@@ -53,24 +50,19 @@ public class ClientService implements Serializable {
 	
 	@Transactional
 	public Client create(ClientCreateReqDTO request) {
-
 		var newAddress = addressService.create(request.getAddress());
-
 		var newClient = ClientBuilder.build(request);
-
 		newClient.setAddress(newAddress);
-
 		return repository.save(newClient);
 	}
 	
 	@Transactional
-	public void remove(UUID uid) { //Service for set removed_at
-		Client client = repository.findByUid(uid).get();
-		Address address = addressService.findByUid(client.getAddress().getUid());
-		if (client.getRemovedAt() == null || address.getRemovedAt() == null)
-			
-			client.setRemovedAt(LocalDateTime.now());
-			address.setRemovedAt(LocalDateTime.now());
+	public void remove(UUID uid) {
+		var client = findByUid(uid);
+		var address = addressService.findByUid(client.getAddress().getUid());
+		
+		client.setRemovedAt(LocalDateTime.now());
+		address.setRemovedAt(LocalDateTime.now());
 			
 		addressRepository.save(address);
 		repository.save(client);
@@ -78,15 +70,11 @@ public class ClientService implements Serializable {
 	
 	@Transactional
 	public Client update(ClientCreateReqDTO request, UUID uid) {
-		Optional<Client> client = repository.findByUid(uid);
-		if(client.isPresent()) {
-			return updateFields(request, client.get());
-		}
-		
-		return null;
+		var client = findByUid(uid);
+			return updateFields(request, client);
 	}
 	
-	@Transactional   //This annotation ensures that all operations must be completed successfully
+	@Transactional
 	private Client updateFields(ClientCreateReqDTO dto, Client client) {
 		client.getAddress().setCity(dto.getAddress().getCity());
 		client.getAddress().setDistrict(dto.getAddress().getDistrict());

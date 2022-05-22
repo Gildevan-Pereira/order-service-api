@@ -28,5 +28,4 @@ public class Client extends Agent implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "address_id")
 	private Address address;
-	
 }

@@ -1,9 +1,8 @@
-package com.serviceorder.api.entity.dto.request;
+package com.serviceorder.api.entity.dto;
 
 import java.io.Serializable;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -34,16 +33,14 @@ public class ClientCreateReqDTO implements Serializable {
 //	@CPF(message = Messages.INVALID) // Numbers of Zero to Nine and have eleven digits 
 	private String identity;
 	
-	@Size(max = 11, min = 10)
 	@Pattern(regexp = "^([\\d]{2})([\\d]{4,5})([\\d]{4})$", //E.g: (XX) X XXXX XXXX  ||  (XX) XXXX XXXX
 			message = Messages.INVALID) 
 	@NotBlank(message = Messages.REQUIRED)
 	private String phone;
 	
+	@Size(max = 75)
 	@Pattern(regexp = "^([a-z]){1,}([a-z0-9._-]){1,}([@]){1}([a-z]){2,}([.]){1}([a-z]){2,}([.]?){1}([a-z]?){3,}$",
 			message = Messages.REQUIRED)
-	@Email(message = Messages.INVALID)
-	@Size(max = 75)
 	@NotBlank(message = Messages.REQUIRED)
 	private String email;
 	

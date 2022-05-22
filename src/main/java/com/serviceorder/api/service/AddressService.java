@@ -2,15 +2,16 @@ package com.serviceorder.api.service;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.serviceorder.api.entity.Address;
-import com.serviceorder.api.entity.dto.request.AddressCreateReqDTO;
-import com.serviceorder.api.entity.dto.request.builders.AddressBuilder;
+import com.serviceorder.api.entity.builders.AddressBuilder;
+import com.serviceorder.api.entity.dto.AddressCreateReqDTO;
 import com.serviceorder.api.exceptions.CustomException;
 import com.serviceorder.api.message.Messages;
 import com.serviceorder.api.repository.AddressRepository;
@@ -23,16 +24,13 @@ public class AddressService implements Serializable {
 	@Autowired
 	private AddressRepository repository;
 	
-	public List<Address> findAll() {
-		return repository.findAll();
+	public Page<Address> findAllByFilter(Pageable pageable) {
+		return repository.findAllByFilter(pageable);
 	}
 	
 	public Address findByUid(UUID uid) {
-		var address = repository.findByUid(uid);
-		if(address.isEmpty()) {
-			throw new CustomException(Messages.ADDRESS_NOT_FOUND);
-		}
-		return address.get();
+		return repository.findByUid(uid)
+				.orElseThrow(() -> new CustomException(Messages.ADDRESS_NOT_FOUND));
 	}
 	
 	public Address create(AddressCreateReqDTO request) {
@@ -43,12 +41,9 @@ public class AddressService implements Serializable {
 		return repository.save(address);
 	}
 	
-	public Address remove(UUID uid) { //Service for set removed_at
-		Address address = repository.findByUid(uid).get();
-		if (address.getRemovedAt() == null)
-			
-			address.setRemovedAt(LocalDateTime.now());
-		
+	public Address remove(UUID uid) {
+		var address = findByUid(uid);
+		address.setRemovedAt(LocalDateTime.now());
 		return repository.save(address);
 	}
 }
