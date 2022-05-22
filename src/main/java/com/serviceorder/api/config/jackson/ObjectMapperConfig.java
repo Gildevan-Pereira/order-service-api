@@ -1,4 +1,4 @@
-package com.serviceorder.api.config;
+package com.serviceorder.api.config.jackson;
 
 import java.time.format.DateTimeFormatter;
 

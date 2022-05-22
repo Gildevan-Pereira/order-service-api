@@ -10,3 +10,6 @@ spring:
       hibernate:
        show_sql: true
        format_sql: true
+ 
+authentication:
+  basic: ZmlydHN1c2VyOmZZS2U4UTNhQm50VnF1UDJLM3Y3aFRNRXk4QkhZeEp6
