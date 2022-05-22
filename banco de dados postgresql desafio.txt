@@ -1,81 +1,328 @@
-create table service_order(
-	id serial4 not null primary key,
-	uid uuid not null default uuid_generate_v4(),
-	created_at timestamp not null default now(),
-	removed_at timestamp,
-	service_id serial4 not null,
-	client_id serial4 not null,
-	technician_id serial4 not null,
-	started_at timestamp,
-	finished_at timestamp,
-	remarks text,
-	
-	foreign key (service_id) references service (id),
-	foreign key (client_id) references client (id),
-	foreign key (technician_id) references technician (id)
+-- DROP SCHEMA public;
+
+CREATE SCHEMA public AUTHORIZATION postgres;
+
+-- DROP SEQUENCE public.address_id_seq;
+
+CREATE SEQUENCE public.address_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE public.client_id_seq;
+
+CREATE SEQUENCE public.client_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE public.service_category_id_seq;
+
+CREATE SEQUENCE public.service_category_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE public.service_id_seq;
+
+CREATE SEQUENCE public.service_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE public.service_order_client_id_seq;
+
+CREATE SEQUENCE public.service_order_client_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE public.service_order_id_seq;
+
+CREATE SEQUENCE public.service_order_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE public.service_order_service_id_seq;
+
+CREATE SEQUENCE public.service_order_service_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE public.service_order_technician_id_seq;
+
+CREATE SEQUENCE public.service_order_technician_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE public.service_service_category_id_seq;
+
+CREATE SEQUENCE public.service_service_category_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE public.technician_address_id_seq;
+
+CREATE SEQUENCE public.technician_address_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE public.technician_id_seq;
+
+CREATE SEQUENCE public.technician_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;-- public.address definition
+
+-- Drop table
+
+-- DROP TABLE public.address;
+
+CREATE TABLE public.address (
+	id serial4 NOT NULL,
+	uid uuid NOT NULL DEFAULT uuid_generate_v4(),
+	created_at timestamp NOT NULL DEFAULT now(),
+	removed_at timestamp NULL,
+	street varchar(100) NOT NULL,
+	"number" varchar(10) NOT NULL,
+	district varchar(50) NOT NULL,
+	zipcode varchar(8) NOT NULL,
+	city varchar(100) NOT NULL,
+	state varchar(2) NOT NULL,
+	complement varchar(150) NULL,
+	CONSTRAINT address_pkey PRIMARY KEY (id)
 );
 
-create table service_category(
-	id serial4 not null primary key,
-	uid uuid not null default uuid_generate_v4(),
-	created_at timestamp not null default now(),
-	removed_at timestamp,
-	name varchar(60) not null
+
+-- public.service_category definition
+
+-- Drop table
+
+-- DROP TABLE public.service_category;
+
+CREATE TABLE public.service_category (
+	id serial4 NOT NULL,
+	uid uuid NOT NULL DEFAULT uuid_generate_v4(),
+	created_at timestamp NOT NULL DEFAULT now(),
+	removed_at timestamp NULL,
+	"name" varchar(60) NOT NULL,
+	CONSTRAINT service_category_pkey PRIMARY KEY (id)
 );
 
-create table service(
-	id serial4 not null primary key,
-	uid uuid not null default uuid_generate_v4(),
-	created_at timestamp not null default now(),
-	removed_at timestamp,
-	service_category_id serial4 not null,
-	title varchar (50) not null,
-	description text,
-	amount numeric (9,2) not null,
-	remarks text,
-	
-	foreign key (service_category_id) references service_category (id)
+
+-- public.client definition
+
+-- Drop table
+
+-- DROP TABLE public.client;
+
+CREATE TABLE public.client (
+	id serial4 NOT NULL,
+	uid uuid NOT NULL DEFAULT uuid_generate_v4(),
+	created_at timestamp NOT NULL DEFAULT now(),
+	removed_at timestamp NULL,
+	fullname varchar(150) NOT NULL,
+	"identity" varchar NOT NULL,
+	phone varchar(11) NOT NULL,
+	email varchar(75) NOT NULL,
+	address_id int4 NOT NULL,
+	CONSTRAINT client_pkey PRIMARY KEY (id),
+	CONSTRAINT client_address_id_fkey FOREIGN KEY (address_id) REFERENCES public.address(id)
 );
 
-create table technician(
-	id serial4 not null primary key,
-	uid uuid not null default uuid_generate_v4(),
-	created_at timestamp not null default now(),
-	removed_at timestamp,
-	fullname varchar (150) not null,
-	identity varchar not null,
-	phone varchar (16) not null,
-	email varchar (75) not null,
-	role varchar not null,
-	commission numeric not null,
-	address_id serial4 not null,
-	
-	foreign key (address_id) references address (id)
-); 
 
-create table client(
-	id serial4 not null primary key,
-	uid uuid not null default uuid_generate_v4(),
-	created_at timestamp not null default now(),
-	removed_at timestamp,
-	fullname varchar (150) not null,
-	identity varchar not null,
-	phone varchar (10) not null,
-	email varchar (75) not null,
-	address_id integer not null,
-	foreign key (address_id) references address (id)
+-- public.service definition
+
+-- Drop table
+
+-- DROP TABLE public.service;
+
+CREATE TABLE public.service (
+	id serial4 NOT NULL,
+	uid uuid NOT NULL DEFAULT uuid_generate_v4(),
+	created_at timestamp NOT NULL DEFAULT now(),
+	removed_at timestamp NULL,
+	service_category_id serial4 NOT NULL,
+	title varchar(50) NOT NULL,
+	description text NULL,
+	amount numeric(9, 2) NOT NULL,
+	remarks text NULL,
+	CONSTRAINT service_pkey PRIMARY KEY (id),
+	CONSTRAINT service_service_category_id_fkey FOREIGN KEY (service_category_id) REFERENCES public.service_category(id)
 );
 
-create table address(
-	id serial4 not null primary key,
-	uid uuid not null default uuid_generate_v4(),
-	created_at timestamp not null default now(),
-	removed_at timestamp,
-	street varchar (100) not null,
-	number varchar not null,
-	district varchar (50) not null,
-	zipcode varchar (8) not null,
-	city varchar (100) not null,
-	state varchar (2) not null,
-	complement varchar (150) not null
+
+-- public.technician definition
+
+-- Drop table
+
+-- DROP TABLE public.technician;
+
+CREATE TABLE public.technician (
+	id serial4 NOT NULL,
+	uid uuid NOT NULL DEFAULT uuid_generate_v4(),
+	created_at timestamp NOT NULL DEFAULT now(),
+	removed_at timestamp NULL,
+	fullname varchar(150) NOT NULL,
+	"identity" varchar NOT NULL,
+	phone varchar(11) NOT NULL,
+	email varchar(75) NOT NULL,
+	"role" varchar NOT NULL,
+	commission numeric NOT NULL,
+	address_id serial4 NOT NULL,
+	CONSTRAINT technician_pkey PRIMARY KEY (id),
+	CONSTRAINT technician_address_id_fkey FOREIGN KEY (address_id) REFERENCES public.address(id)
 );
+
+
+-- public.service_order definition
+
+-- Drop table
+
+-- DROP TABLE public.service_order;
+
+CREATE TABLE public.service_order (
+	id serial4 NOT NULL,
+	uid uuid NOT NULL DEFAULT uuid_generate_v4(),
+	created_at timestamp NOT NULL DEFAULT now(),
+	removed_at timestamp NULL,
+	service_id serial4 NOT NULL,
+	client_id serial4 NOT NULL,
+	technician_id serial4 NOT NULL,
+	started_at timestamp NULL,
+	finished_at timestamp NULL,
+	remarks text NULL,
+	status bpchar(1) NOT NULL DEFAULT 'P'::bpchar,
+	CONSTRAINT service_order_pkey PRIMARY KEY (id),
+	CONSTRAINT service_order_client_id_fkey FOREIGN KEY (client_id) REFERENCES public.client(id),
+	CONSTRAINT service_order_service_id_fkey FOREIGN KEY (service_id) REFERENCES public.service(id),
+	CONSTRAINT service_order_technician_id_fkey FOREIGN KEY (technician_id) REFERENCES public.technician(id)
+);
+
+
+
+CREATE OR REPLACE FUNCTION public.unaccent(text)
+ RETURNS text
+ LANGUAGE c
+ STABLE PARALLEL SAFE STRICT
+AS '$libdir/unaccent', $function$unaccent_dict$function$
+;
+
+CREATE OR REPLACE FUNCTION public.unaccent(regdictionary, text)
+ RETURNS text
+ LANGUAGE c
+ STABLE PARALLEL SAFE STRICT
+AS '$libdir/unaccent', $function$unaccent_dict$function$
+;
+
+CREATE OR REPLACE FUNCTION public.unaccent_init(internal)
+ RETURNS internal
+ LANGUAGE c
+ PARALLEL SAFE
+AS '$libdir/unaccent', $function$unaccent_init$function$
+;
+
+CREATE OR REPLACE FUNCTION public.unaccent_lexize(internal, internal, internal, internal)
+ RETURNS internal
+ LANGUAGE c
+ PARALLEL SAFE
+AS '$libdir/unaccent', $function$unaccent_lexize$function$
+;
+
+CREATE OR REPLACE FUNCTION public.uuid_generate_v1()
+ RETURNS uuid
+ LANGUAGE c
+ PARALLEL SAFE STRICT
+AS '$libdir/uuid-ossp', $function$uuid_generate_v1$function$
+;
+
+CREATE OR REPLACE FUNCTION public.uuid_generate_v1mc()
+ RETURNS uuid
+ LANGUAGE c
+ PARALLEL SAFE STRICT
+AS '$libdir/uuid-ossp', $function$uuid_generate_v1mc$function$
+;
+
+CREATE OR REPLACE FUNCTION public.uuid_generate_v3(namespace uuid, name text)
+ RETURNS uuid
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/uuid-ossp', $function$uuid_generate_v3$function$
+;
+
+CREATE OR REPLACE FUNCTION public.uuid_generate_v4()
+ RETURNS uuid
+ LANGUAGE c
+ PARALLEL SAFE STRICT
+AS '$libdir/uuid-ossp', $function$uuid_generate_v4$function$
+;
+
+CREATE OR REPLACE FUNCTION public.uuid_generate_v5(namespace uuid, name text)
+ RETURNS uuid
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/uuid-ossp', $function$uuid_generate_v5$function$
+;
+
+CREATE OR REPLACE FUNCTION public.uuid_nil()
+ RETURNS uuid
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/uuid-ossp', $function$uuid_nil$function$
+;
+
+CREATE OR REPLACE FUNCTION public.uuid_ns_dns()
+ RETURNS uuid
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/uuid-ossp', $function$uuid_ns_dns$function$
+;
+
+CREATE OR REPLACE FUNCTION public.uuid_ns_oid()
+ RETURNS uuid
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/uuid-ossp', $function$uuid_ns_oid$function$
+;
+
+CREATE OR REPLACE FUNCTION public.uuid_ns_url()
+ RETURNS uuid
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/uuid-ossp', $function$uuid_ns_url$function$
+;
+
+CREATE OR REPLACE FUNCTION public.uuid_ns_x500()
+ RETURNS uuid
+ LANGUAGE c
+ IMMUTABLE PARALLEL SAFE STRICT
+AS '$libdir/uuid-ossp', $function$uuid_ns_x500$function$
+;
