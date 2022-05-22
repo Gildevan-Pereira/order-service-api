@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -17,7 +19,7 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 	Optional<Client> findByUid(UUID uid);
 	
 	@Query(value = "SELECT c FROM Client c WHERE c.removedAt IS NULL") //JPQL
-	List<Client> findAll();
+	Page<Client> findAllByFilter(Pageable pageable); //Query Method JPA
 	
 	@Query(nativeQuery = true, value = "SELECT * FROM client c "
 			+ "WHERE LOWER(UNACCENT(c.fullname)) LIKE %:keyword% "

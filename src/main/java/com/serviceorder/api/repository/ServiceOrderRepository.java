@@ -5,11 +5,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.serviceorder.api.entity.ServiceOrder;
+import com.serviceorder.api.entity.domain.ServiceOrderStatus;
 
 @Repository
 public interface ServiceOrderRepository extends JpaRepository<ServiceOrder, Long> {
@@ -18,11 +21,8 @@ public interface ServiceOrderRepository extends JpaRepository<ServiceOrder, Long
 	Optional<ServiceOrder> findByUid(UUID uid);
 	
 	@Query(value = "SELECT so FROM ServiceOrder so WHERE so.removedAt IS NULL") //JPQL
-	List<ServiceOrder> findAll(); //Query Method JPA
+	Page<ServiceOrder> findAllByFilter(Pageable pageable); //Query Method JPA
 	
-	@Query(value = "SELECT so FROM ServiceOrder so WHERE (CAST(so.startedAt AS LocalDate)) BETWEEN :start AND :end") //Query JPQL
-	List<ServiceOrder> findByDateBetweenStart(LocalDate start, LocalDate end);
-	
-	@Query(value = "SELECT so FROM ServiceOrder so WHERE (CAST(so.finishedAt AS LocalDate)) BETWEEN :start AND :end") //Query JPQL
-	List<ServiceOrder> findByDateBetweenEnd(LocalDate start, LocalDate end);
+	@Query(value = "SELECT so FROM ServiceOrder so WHERE so.removedAt IS NULL AND so.status IN :status AND (CAST(so.createdAt AS LocalDate) BETWEEN :start AND :end)") //Query JPQL
+	List<ServiceOrder> findByStatusAndCreatedAtBetween(List<ServiceOrderStatus> status, LocalDate start, LocalDate end);
 }

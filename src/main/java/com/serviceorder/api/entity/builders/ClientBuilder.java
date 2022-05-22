@@ -1,7 +1,9 @@
-package com.serviceorder.api.entity.dto.request.builders;
+package com.serviceorder.api.entity.builders;
+
+import java.time.LocalDateTime;
 
 import com.serviceorder.api.entity.Client;
-import com.serviceorder.api.entity.dto.request.ClientCreateReqDTO;
+import com.serviceorder.api.entity.dto.ClientCreateReqDTO;
 
 public class ClientBuilder {
 	
@@ -12,6 +14,7 @@ public class ClientBuilder {
 				.email(clientDTO.getEmail())
 				.identity(clientDTO.getIdentity())
 				.phone(clientDTO.getPhone())
+				.createdAt(LocalDateTime.now())
 				.build();
 	}
 }

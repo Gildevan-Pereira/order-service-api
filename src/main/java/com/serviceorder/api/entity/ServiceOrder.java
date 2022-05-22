@@ -5,10 +5,14 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.serviceorder.api.entity.domain.ServiceOrderStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,21 +43,16 @@ public class ServiceOrder extends BaseEntity implements Serializable {
 	@JoinColumn(name = "technician_id")
 	private Technician technician;
 	
-	@Column(name = "started_at")
+	@Column(name = "started_at", updatable = false)
 	private LocalDateTime startedAt;
 	
-	@Column(name = "finished_at")
+	@Column(name = "finished_at", updatable = false)
 	private LocalDateTime finishedAt;
 	
+	@Column(insertable = false)
+	@Enumerated(EnumType.STRING)
+	private ServiceOrderStatus status;
+	
 	private String remarks;
-	
-	
-	public LocalDateTime setStartedAt(LocalDateTime setStartedAt) {
-		return this.startedAt = setStartedAt;
-	}
-	public LocalDateTime setFinishedAt(LocalDateTime finishedAt) {
-		return this.finishedAt = finishedAt;
-	}
-	
 	
 }

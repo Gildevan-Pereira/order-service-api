@@ -12,6 +12,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,7 +33,8 @@ public abstract class BaseEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(updatable = false) //Nunca pode ser mudado TODO:Só pra lembrar FIXME: Só pra lembra	
+	@JsonProperty(value = "id")
+	@Column(updatable = false)
 	private UUID uid;
 	
 	@Column(name = "created_at", updatable = false, insertable = false)
@@ -47,5 +49,4 @@ public abstract class BaseEntity implements Serializable {
 	private void generateUid () {
 		this.uid = UUID.randomUUID();
 	}
-	
 }

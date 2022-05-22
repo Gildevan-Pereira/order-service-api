@@ -17,12 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.serviceorder.api.entity.ServiceCategory;
-import com.serviceorder.api.entity.dto.request.CategoryCreateReqDTO;
+import com.serviceorder.api.entity.dto.CategoryCreateReqDTO;
 import com.serviceorder.api.service.ServiceCategoryService;
 
-
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("/v1/categories")
 public class ServiceCategoryController {
 	
 	@Autowired
