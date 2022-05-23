@@ -23,6 +23,7 @@ public class ServiceCategoryService {
 	public ServiceCategory create(CategoryCreateReqDTO request) {
 		var serviceCategory = ServiceCategory.builder()
 				.name(request.getName())
+				.createdAt(LocalDateTime.now())
 				.build();
 		return repository.save(serviceCategory);
 	}

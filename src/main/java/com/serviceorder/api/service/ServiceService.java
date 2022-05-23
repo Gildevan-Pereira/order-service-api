@@ -52,16 +52,10 @@ public class ServiceService implements Serializable {
 		return repository.findAllByKeyword(tratedSt);
 	}
 	
-	public List<Service> findByBetween(String start, String end) {
+	public List<Service> findByCreatedAtBetween(String start, String end) {
 		var startDate = LocalDate.parse(start);
 		var endDate = LocalDate.parse(end);
-		return repository.findByDateBetweenStart(startDate, endDate);
-	}
-
-	public List<Service> findByBetweenEnd(String start, String end) {
-		var startDate = LocalDate.parse(start);
-		var endDate = LocalDate.parse(end);
-		return repository.findByDateBetweenEnd(startDate, endDate);
+		return repository.findByCreatedAtBetween(startDate, endDate);
 	}
 
 	public void remove(UUID uid) {

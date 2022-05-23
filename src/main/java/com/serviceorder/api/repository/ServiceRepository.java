@@ -23,15 +23,11 @@ public interface ServiceRepository extends JpaRepository<Service, Long> {
 	Page<Service> findAllByFilter(Pageable pageable); //Query Method JPA
 	
 	@Query(nativeQuery = true, value = "SELECT * FROM service s "
-			+ "WHERE LOWER(UNACCENT(s.title)) LIKE %:keyword% "
-			+ "OR LOWER(UNACCENT(s.description)) LIKE %:keyword%"
+			+ "WHERE (LOWER(UNACCENT(s.title)) LIKE %:keyword% "
+			+ "OR LOWER(UNACCENT(s.description)) LIKE %:keyword%)"
 			+ "AND s.removed_at IS NULL")
 	List<Service> findAllByKeyword(String keyword);
 	
 	@Query(value = "SELECT s FROM Service s WHERE s.removedAt IS NULL AND (CAST(s.createdAt AS LocalDate)) BETWEEN :start AND :end") //Query JPQL
-	List<Service> findByDateBetweenStart(LocalDate start, LocalDate end);
-	
-	@Query(value = "SELECT s FROM Service s WHERE s.removedAt IS NULL AND (CAST(s.removedAt AS LocalDate)) BETWEEN :start AND :end") //Query JPQL
-	List<Service> findByDateBetweenEnd(LocalDate start, LocalDate end);
-	
+	List<Service> findByCreatedAtBetween(LocalDate start, LocalDate end);
 }

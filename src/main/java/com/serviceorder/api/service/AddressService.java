@@ -1,7 +1,6 @@
 package com.serviceorder.api.service;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +40,4 @@ public class AddressService implements Serializable {
 		return repository.save(address);
 	}
 	
-	public Address remove(UUID uid) {
-		var address = findByUid(uid);
-		address.setRemovedAt(LocalDateTime.now());
-		return repository.save(address);
-	}
 }

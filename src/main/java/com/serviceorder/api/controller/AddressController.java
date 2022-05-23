@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,14 +22,8 @@ public class AddressController {
 
 	@Autowired
 	private AddressService service;
-
-	@DeleteMapping("/{uid}")
-	public ResponseEntity<Address> delete(@PathVariable("uid") UUID uid) {
-		service.remove(uid);
-		return ResponseEntity.noContent().build();
-	}
 	
-	@GetMapping("/{uid}") //Endpoint for get Service Order by uid
+	@GetMapping("/{uid}")
 	public ResponseEntity<Address> findByUid(@PathVariable("uid") UUID uid){
 		return ResponseEntity.ok(service.findByUid(uid));
 	}

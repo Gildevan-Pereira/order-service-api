@@ -69,19 +69,10 @@ public class ServiceController {
 	}
 
 	@GetMapping("/between") 
-	public ResponseEntity<List<Service>> findByDateBetween(
+	public ResponseEntity<List<Service>> findByCreatedAtBetween(
 			@RequestParam(value = "start", required = true) String start,
 			@RequestParam(value = "end", required = true) String end) {
-		var allService = service.findByBetween(start, end);
+		var allService = service.findByCreatedAtBetween(start, end);
 		return ResponseEntity.ok(allService);
 	}
-	
-	@GetMapping("/between/end") 
-	public ResponseEntity<List<Service>> findByDateBetweenEnd(
-			@RequestParam(value = "start", required = true) String start,
-			@RequestParam(value = "end", required = true) String end) {
-		var allService = service.findByBetweenEnd(start, end);
-		return ResponseEntity.ok(allService);
-	}
-	
 }

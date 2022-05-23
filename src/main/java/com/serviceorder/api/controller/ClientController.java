@@ -33,13 +33,13 @@ public class ClientController {
 	private ClientService service;
 	
 	@PostMapping
-	public ResponseEntity<Client> clientCreate(@Valid @RequestBody ClientCreateReqDTO request) {
+	public ResponseEntity<Client> create(@Valid @RequestBody ClientCreateReqDTO request) {
 		var newclient = service.create(request);
 		return ResponseEntity.ok(newclient);
 	} 
 	
 	@PutMapping("/{uid}")
-	public ResponseEntity<Client> clientUpdate(@Valid @RequestBody ClientCreateReqDTO createReqDTO, @PathVariable UUID uid) {
+	public ResponseEntity<Client> update(@Valid @RequestBody ClientCreateReqDTO createReqDTO, @PathVariable UUID uid) {
 		return ResponseEntity.ok(service.update(createReqDTO, uid));
 	}
 	
@@ -65,7 +65,4 @@ public class ClientController {
 	public ResponseEntity<List<Client>> findByKeyword(@RequestParam("keyword") String keyword){
 		return ResponseEntity.ok(service.findByKeyword(keyword));
 	}
-	
-
-
 }
